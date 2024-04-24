@@ -1,9 +1,5 @@
-import { useState } from 'react';
+import DotsBackground from './components/DotsBackground';
 
 export default function App() {
-    const [count, setCount] = useState(0);
-
-    return (
-        <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
-    );
+    return <DotsBackground />;
 }
