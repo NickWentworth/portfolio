@@ -48,44 +48,67 @@ export function dots(canvas: HTMLCanvasElement) {
         },
     }));
 
-    // get canvas draw context
+    // resize canvas to fill the background whenever the window is resized
+    addEventListener('resize', () => {
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        // also draw the frame again to prevent flickering
+        drawFrame(canvas, dots);
+    });
+
+    // setup an interval to move dots and draw what is needed
+    return setInterval(() => {
+        updateFrame(canvas, dots);
+        drawFrame(canvas, dots);
+    }, 1000 / FPS);
+}
+
+/** Handles updating the dot positions each frame */
+function updateFrame(canvas: HTMLCanvasElement, dots: Dot[]) {
+    dots.forEach((dot) => {
+        // update dot positions
+        dot.pos.x += dot.vel.x;
+        dot.pos.y += dot.vel.y;
+
+        // bounce dots off canvas borders
+        if (
+            (dot.pos.x <= 0 && dot.vel.x < 0) ||
+            (dot.pos.x >= canvas.width && dot.vel.x > 0)
+        ) {
+            dot.vel.x *= -1;
+        }
+
+        if (
+            (dot.pos.y <= 0 && dot.vel.y < 0) ||
+            (dot.pos.y >= canvas.height && dot.vel.y > 0)
+        ) {
+            dot.vel.y *= -1;
+        }
+    });
+}
+
+/** Handles drawing the dots and their connections each frame */
+function drawFrame(canvas: HTMLCanvasElement, dots: Dot[]) {
     const ctx = canvas.getContext('2d');
     if (ctx === null) {
         console.error('Unable to get canvas context');
         return;
     }
 
-    // setup an interval to move dots and draw what is needed
-    return setInterval(() => {
-        // begin with clearing canvas
-        ctx.fillStyle = BG_COLOR;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // begin with clearing canvas
+    ctx.fillStyle = BG_COLOR;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // then update and draw each dot
-        dots.forEach((dot) => {
-            // update dot positions
-            dot.pos.x += dot.vel.x;
-            dot.pos.y += dot.vel.y;
+    for (let i = 0; i < NUM_DOTS; i++) {
+        // draw each individual dot
+        drawDot(ctx, dots[i]);
 
-            // bounce dots off canvas borders
-            if (dot.pos.x <= 0 || dot.pos.x >= canvas.width) {
-                dot.vel.x *= -1;
-            }
-            if (dot.pos.y <= 0 || dot.pos.y >= canvas.height) {
-                dot.vel.y *= -1;
-            }
-
-            // then draw the dot
-            drawDot(ctx, dot);
-        });
-
-        // finally draw the connections between dots
-        for (let i = 0; i < NUM_DOTS; i++) {
-            for (let j = i + 1; j < NUM_DOTS; j++) {
-                drawConnection(ctx, dots[i], dots[j]);
-            }
+        // draw the connections between dots
+        for (let j = i + 1; j < NUM_DOTS; j++) {
+            drawConnection(ctx, dots[i], dots[j]);
         }
-    }, 1000 / FPS);
+    }
 }
 
 /** Helper function to draw a dot onto the given canvas context */

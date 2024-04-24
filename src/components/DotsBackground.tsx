@@ -5,8 +5,6 @@ import { dots } from '../lib/dots';
 export default function DotsBackground(props: React.PropsWithChildren) {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
 
-    // TODO: resize canvas when window is resized
-
     useEffect(() => {
         if (!canvasRef.current) {
             console.error('Unable to use canvas');
