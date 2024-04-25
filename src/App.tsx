@@ -1,9 +1,6 @@
 import DotsBackground from './components/DotsBackground';
 import styles from './app.module.css';
 
-const LOREM =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempus scelerisque erat, eu dignissim nisl volutpat at. Maecenas cursus ultricies ipsum et dapibus. Sed at interdum purus. Aenean pellentesque eros ex, convallis ultricies nulla elementum vel. In fermentum sagittis tortor vel blandit. Phasellus at neque tortor. Sed maximus libero quam, consectetur sodales ipsum venenatis vel. Curabitur interdum faucibus tempus. Pellentesque hendrerit volutpat est cursus cursus. Pellentesque in purus vel metus tincidunt gravida vitae ac purus. Vestibulum sed pharetra ipsum, vel ultricies erat. Donec facilisis, neque ac efficitur vulputate, nisl diam dignissim nisl, vitae dignissim elit lacus varius odio. Curabitur nec purus eget augue aliquet vestibulum. Mauris eget dictum nulla, ac malesuada ligula. Phasellus laoreet orci id elit sagittis, eu volutpat lorem malesuada. Nam aliquet semper lorem, nec pharetra magna luctus sit amet. Duis pretium ligula sit amet suscipit pulvinar. Vestibulum at accumsan erat, nec consectetur arcu. Nam metus magna, sagittis id tellus ut, lobortis hendrerit urna. Duis pretium lacinia porta. Donec accumsan congue nisl ut molestie. Proin diam elit, rhoncus eget dapibus in, varius scelerisque sem. Aenean aliquet eget eros sit amet aliquet. Vivamus ullamcorper varius pharetra. Maecenas a vestibulum erat. Aliquam erat volutpat. Curabitur dictum, turpis at vehicula fringilla, metus magna volutpat dui, nec volutpat augue lectus ut ipsum. Aliquam auctor, est commodo dapibus porta, neque augue blandit orci, posuere maximus neque dui sit amet justo. Morbi eleifend, lorem eget elementum faucibus, sapien tellus convallis nisi, in scelerisque leo massa non est. Ut bibendum rutrum dui ac porta. Mauris eget est felis. Suspendisse gravida odio et tellus egestas fermentum. Vestibulum venenatis vel arcu nec aliquet. Praesent nisl sapien, vestibulum vel lectus ut, molestie facilisis ipsum. Integer molestie tristique ipsum, in tincidunt nulla vestibulum et. Pellentesque molestie eget diam ultricies finibus. Vestibulum accumsan, nisl eget laoreet porttitor, velit purus pharetra sapien, ac eleifend diam metus ac metus. Praesent posuere orci vel convallis elementum. Praesent euismod magna quis pharetra aliquam. Mauris eget pellentesque velit. Curabitur mollis erat et efficitur dictum. Morbi lacinia eget dolor vitae auctor. Quisque in turpis id elit facilisis lobortis et in augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur sagittis lacus non vulputate condimentum. Maecenas gravida nisi commodo lorem venenatis, in volutpat nulla dapibus. Phasellus a ultricies dolor. Nunc vitae condimentum quam. Ut sollicitudin leo sed erat venenatis elementum. In varius, ex euismod semper ultricies, purus turpis commodo lectus, vitae egestas massa sapien ut nibh. Nullam volutpat ex non tortor dignissim aliquet. Quisque rutrum tortor ut eros imperdiet fringilla. Quisque molestie dui in mi laoreet, sit amet laoreet turpis luctus. Sed mollis erat eget tellus molestie, a bibendum justo porttitor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin vestibulum nulla in nisi suscipit fermentum. Duis in sapien id eros aliquam tempor ut nec arcu. Ut euismod enim nulla, et facilisis augue dignissim congue. Vivamus quis arcu ac lorem fringilla mattis. Praesent id augue ac ligula imperdiet pulvinar sed sed lectus. In eleifend felis eget congue pellentesque. Maecenas nisl nisi, elementum non elementum ut, imperdiet vitae justo. Etiam iaculis dapibus lorem, et efficitur ante tempus ac.';
-
 export default function App() {
     return (
         <DotsBackground>
@@ -19,18 +16,152 @@ export default function App() {
 
                 <hr />
 
-                <h2>About Me</h2>
-                <p>{LOREM}</p>
+                <h2>Technologies</h2>
+                <div className={styles.tech}>
+                    <p>
+                        I bring a unique blend of high-level, design-oriented
+                        frontend development with the ability to dive deep into
+                        performance and optimization through my experience in
+                        low-level systems programming.
+                    </p>
+
+                    <div className={styles.techLanguages}>
+                        <div className={styles.techLanguage}>
+                            <h3>Fullstack Development</h3>
+                            <p>
+                                Years of personal and academic experience
+                                working with modern web development
+                                technologies, including React and Next.js.
+                                Knowledgeable in essential languages: HTML, CSS,
+                                and JS/TS.
+                            </p>
+                        </div>
+
+                        <div className={styles.techLanguage}>
+                            <h3>Systems Programming</h3>
+                            <p>
+                                Skilled in performance-demanding systems
+                                programming, with experience as deep as working
+                                on OS drivers and kernel-level code. Specialized
+                                in Rust and C languages.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <hr />
 
                 <h2>Projects</h2>
-                <p>{LOREM}</p>
+                <div className={styles.projects}>
+                    <div className={styles.project}>
+                        <div className={styles.projectImage}>
+                            <img src='rememo.png' />
+                        </div>
+
+                        <div className={styles.projectDescription}>
+                            <h4>Rememo</h4>
+
+                            <p>
+                                Modern planner application that helps students
+                                track their terms, courses, and tasks
+                            </p>
+
+                            <div className={styles.projectTechnologies}>
+                                <p>Next.js</p>
+                                <p>React</p>
+                                <p>tRPC</p>
+                                <p>Prisma</p>
+                                <p>NextAuth</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.project}>
+                        <div className={styles.projectImage}>
+                            <img src='rememo.png' />
+                        </div>
+
+                        <div className={styles.projectDescription}>
+                            <h4>Otter</h4>
+
+                            <p>
+                                Advanced chess engine written fully from scratch
+                            </p>
+
+                            <div className={styles.projectTechnologies}>
+                                <p>Rust</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.project}>
+                        <div className={styles.projectImage}>
+                            <img src='rememo.png' />
+                        </div>
+
+                        <div className={styles.projectDescription}>
+                            <h4>Team Visualization App</h4>
+
+                            <p>
+                                Online application built to assist Penn State
+                                faculty through the management of their Senior
+                                Capstone projects
+                            </p>
+
+                            <div className={styles.projectTechnologies}>
+                                <p>Next.js</p>
+                                <p>React</p>
+                                <p>Prisma</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <hr />
 
                 <h2>Experience</h2>
-                <p>{LOREM}</p>
+                <div className={styles.experience}>
+                    <p>
+                        I am open to entry-level opportunities! I am excited and
+                        ready to begin my professional career as a software
+                        engineer.
+                    </p>
+
+                    <br />
+
+                    <div className={styles.job}>
+                        <div className={styles.jobHeader}>
+                            <h4>Programming Tutor</h4>
+                            <p>June 2021 - Present</p>
+                        </div>
+
+                        <p>
+                            <i>Independent</i>
+                        </p>
+
+                        <p>
+                            Skilled tutor specializing in programming and
+                            mathematics, teaching students ranging from middle
+                            school to professional-level.
+                        </p>
+
+                        <p>
+                            Interested in being tutored by me? Check out my
+                            tutor profile at{' '}
+                            <a
+                                href='https://www.wyzant.com/tutors/Nicholas2178'
+                                target='_blank'
+                            >
+                                Wyzant
+                            </a>{' '}
+                            and send me a message!
+                        </p>
+                    </div>
+                </div>
+
+                <hr />
+
+                <p className={styles.copyright}>© 2024 Nick Wentworth</p>
             </div>
         </DotsBackground>
     );

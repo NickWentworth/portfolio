@@ -18,8 +18,11 @@
     width: 100%;
 }
 
+/* intro */
+
 .intro {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 5rem;
@@ -30,4 +33,93 @@
     height: 12rem;
     border-radius: 9999px;
     border: 2px solid black;
+}
+
+/* technologies */
+
+.tech {
+    padding: 0 1rem;
+}
+
+.techLanguages {
+    display: grid;
+    grid-auto-flow: column;
+    border-radius: 0.25rem;
+}
+
+.techLanguage {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+}
+.techLanguage:not(:first-child) {
+    border-left: none;
+}
+
+/* projects */
+
+.projects {
+    padding: 0 1rem;
+}
+
+.project {
+    border: 1px solid black;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+.project:not(:first-child) {
+    border-top: none;
+}
+
+.projectImage {
+    flex: 2;
+}
+
+.projectImage img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+}
+
+.projectDescription {
+    flex: 3;
+}
+
+.projectTechnologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.projectTechnologies > * {
+    font-size: 14px;
+    background-color: lightblue;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+}
+
+/* experience */
+
+.experience {
+    padding: 0 1rem;
+}
+
+.job {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.jobHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* copyright */
+
+.copyright {
+    margin: 1rem auto;
 }
