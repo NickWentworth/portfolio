@@ -19,17 +19,17 @@ export default function App() {
 
                 <hr />
 
-                <h1>About Me</h1>
+                <h2>About Me</h2>
                 <p>{LOREM}</p>
 
                 <hr />
 
-                <h1>Projects</h1>
+                <h2>Projects</h2>
                 <p>{LOREM}</p>
 
                 <hr />
 
-                <h1>Experience</h1>
+                <h2>Experience</h2>
                 <p>{LOREM}</p>
             </div>
         </DotsBackground>
