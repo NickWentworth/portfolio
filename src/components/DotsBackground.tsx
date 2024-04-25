@@ -19,7 +19,7 @@ export default function DotsBackground(props: React.PropsWithChildren) {
     return (
         <div className={styles.background}>
             <canvas className={styles.canvas} ref={canvasRef} />
-            {props.children}
+            <span className={styles.children}>{props.children}</span>
         </div>
     );
 }
