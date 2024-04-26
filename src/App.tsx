@@ -124,8 +124,7 @@ export default function App() {
                     <ProjectCard
                         project={{
                             name: 'Otter',
-                            // TODO: add unique image
-                            image: 'rememo.png',
+                            image: 'otter.png',
                             description:
                                 'Advanced chess engine written fully from scratch',
                             technologies: ['Rust'],
@@ -136,8 +135,7 @@ export default function App() {
                     <ProjectCard
                         project={{
                             name: 'Team Visualization App',
-                            // TODO: add unique image
-                            image: 'rememo.png',
+                            image: 'teamvis.png',
                             description:
                                 'Online application built to assist Penn State faculty through the management of their Senior Capstone projects',
                             technologies: [
