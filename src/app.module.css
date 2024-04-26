@@ -91,43 +91,6 @@
     padding: 0 1rem;
 }
 
-.project {
-    border: 1px solid black;
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-}
-.project:not(:first-child) {
-    border-top: none;
-}
-
-.projectImage {
-    flex: 2;
-}
-
-.projectImage img {
-    width: 100%;
-    object-fit: contain;
-    border-radius: 0.5rem;
-}
-
-.projectDescription {
-    flex: 3;
-}
-
-.projectTechnologies {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.projectTechnologies > * {
-    font-size: 14px;
-    background-color: lightblue;
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-}
-
 /* experience */
 
 .experience {

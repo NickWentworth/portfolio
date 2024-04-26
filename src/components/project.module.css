@@ -1,0 +1,38 @@
+/* TODO: generally improve styling of project card */
+
+.project {
+    border: 1px solid black;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+.project:not(:first-child) {
+    border-top: none;
+}
+
+.image {
+    flex: 2;
+}
+
+.image img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+}
+
+.summary {
+    flex: 3;
+}
+
+.technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.technologies > * {
+    font-size: 14px;
+    background-color: lightblue;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+}

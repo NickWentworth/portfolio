@@ -1,6 +1,7 @@
-import DotsBackground from './components/DotsBackground';
-import styles from './app.module.css';
 import { GitHub, LinkedIn, Mail } from './icons';
+import DotsBackground from './components/DotsBackground';
+import ProjectCard from './components/ProjectCard';
+import styles from './app.module.css';
 
 // anchor points for header links and main page sections
 const TECHNOLOGIES = 'technologies';
@@ -101,68 +102,52 @@ export default function App() {
 
                 <h2 id={PROJECTS}>Projects</h2>
                 <div className={styles.projects}>
-                    <div className={styles.project}>
-                        <div className={styles.projectImage}>
-                            <img src='rememo.png' />
-                        </div>
+                    <ProjectCard
+                        project={{
+                            name: 'Rememo',
+                            image: 'rememo.png',
+                            description:
+                                'Modern planner application that helps students track their terms, courses, and tasks',
+                            technologies: [
+                                'Next.js',
+                                'React',
+                                'TypeScript',
+                                'tRPC',
+                                'Prisma',
+                                'NextAuth',
+                            ],
+                            link: 'https://rememo.nickwentworth.me',
+                            source: 'https://github.com/NickWentworth/rememo',
+                        }}
+                    />
 
-                        <div className={styles.projectDescription}>
-                            <h4>Rememo</h4>
+                    <ProjectCard
+                        project={{
+                            name: 'Otter',
+                            // TODO: add unique image
+                            image: 'rememo.png',
+                            description:
+                                'Advanced chess engine written fully from scratch',
+                            technologies: ['Rust'],
+                            source: 'https://github.com/NickWentworth/otter',
+                        }}
+                    />
 
-                            <p>
-                                Modern planner application that helps students
-                                track their terms, courses, and tasks
-                            </p>
-
-                            <div className={styles.projectTechnologies}>
-                                <p>Next.js</p>
-                                <p>React</p>
-                                <p>tRPC</p>
-                                <p>Prisma</p>
-                                <p>NextAuth</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.project}>
-                        <div className={styles.projectImage}>
-                            <img src='rememo.png' />
-                        </div>
-
-                        <div className={styles.projectDescription}>
-                            <h4>Otter</h4>
-
-                            <p>
-                                Advanced chess engine written fully from scratch
-                            </p>
-
-                            <div className={styles.projectTechnologies}>
-                                <p>Rust</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.project}>
-                        <div className={styles.projectImage}>
-                            <img src='rememo.png' />
-                        </div>
-
-                        <div className={styles.projectDescription}>
-                            <h4>Team Visualization App</h4>
-
-                            <p>
-                                Online application built to assist Penn State
-                                faculty through the management of their Senior
-                                Capstone projects
-                            </p>
-
-                            <div className={styles.projectTechnologies}>
-                                <p>Next.js</p>
-                                <p>React</p>
-                                <p>Prisma</p>
-                            </div>
-                        </div>
-                    </div>
+                    <ProjectCard
+                        project={{
+                            name: 'Team Visualization App',
+                            // TODO: add unique image
+                            image: 'rememo.png',
+                            description:
+                                'Online application built to assist Penn State faculty through the management of their Senior Capstone projects',
+                            technologies: [
+                                'Next.js',
+                                'React',
+                                'TypeScript',
+                                'Prisma',
+                            ],
+                        }}
+                    />
                 </div>
 
                 <hr />
