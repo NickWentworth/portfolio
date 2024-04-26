@@ -1,9 +1,57 @@
 import DotsBackground from './components/DotsBackground';
 import styles from './app.module.css';
+import { GitHub, LinkedIn, Mail } from './icons';
+
+// anchor points for header links and main page sections
+const TECHNOLOGIES = 'technologies';
+const PROJECTS = 'projects';
+const EXPERIENCE = 'experience';
 
 export default function App() {
     return (
         <DotsBackground>
+            <nav className={styles.header}>
+                <a href='/'>
+                    <h2>Nick Wentworth</h2>
+                </a>
+
+                {/* FIXME: properly scroll anchors into view */}
+                <div className={styles.headerLinks}>
+                    <a href={`#${TECHNOLOGIES}`}>
+                        <p>Technologies</p>
+                    </a>
+
+                    <p>|</p>
+
+                    <a href={`#${PROJECTS}`}>
+                        <p>Projects</p>
+                    </a>
+
+                    <p>|</p>
+
+                    <a href={`#${EXPERIENCE}`}>
+                        <p>Experience</p>
+                    </a>
+                </div>
+
+                <div className={styles.headerIcons}>
+                    <a href='https://github.com/nickwentworth' target='_blank'>
+                        <GitHub />
+                    </a>
+
+                    <a
+                        href='https://www.linkedin.com/in/nickwentworth/'
+                        target='_blank'
+                    >
+                        <LinkedIn />
+                    </a>
+
+                    <a href='mailto:nickwentworth123@gmail.com' target='_blank'>
+                        <Mail />
+                    </a>
+                </div>
+            </nav>
+
             <div className={styles.content}>
                 <div className={styles.intro}>
                     <div className={styles.introText}>
@@ -16,7 +64,7 @@ export default function App() {
 
                 <hr />
 
-                <h2>Technologies</h2>
+                <h2 id={TECHNOLOGIES}>Technologies</h2>
                 <div className={styles.tech}>
                     <p>
                         I bring a unique blend of high-level, design-oriented
@@ -51,7 +99,7 @@ export default function App() {
 
                 <hr />
 
-                <h2>Projects</h2>
+                <h2 id={PROJECTS}>Projects</h2>
                 <div className={styles.projects}>
                     <div className={styles.project}>
                         <div className={styles.projectImage}>
@@ -119,7 +167,7 @@ export default function App() {
 
                 <hr />
 
-                <h2>Experience</h2>
+                <h2 id={EXPERIENCE}>Experience</h2>
                 <div className={styles.experience}>
                     <p>
                         I am open to entry-level opportunities! I am excited and
