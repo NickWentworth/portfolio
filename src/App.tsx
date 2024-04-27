@@ -1,6 +1,7 @@
 import { GitHub, LinkedIn, Mail } from './icons';
 import DotsBackground from './components/DotsBackground';
 import ProjectCard from './components/ProjectCard';
+import { Grid, IconButton, Link, Stack } from '@chakra-ui/react';
 import styles from './app.module.css';
 
 // anchor points for header links and main page sections
@@ -11,47 +12,69 @@ const EXPERIENCE = 'experience';
 export default function App() {
     return (
         <DotsBackground>
-            <nav className={styles.header}>
-                <a href='/'>
-                    <h2>Nick Wentworth</h2>
-                </a>
+            <Grid
+                as='nav'
+                bg='white'
+                p='1rem'
+                autoColumns='1fr'
+                autoFlow='column'
+                alignItems='center'
+                pos='sticky'
+                top='0'
+                shadow='md'
+            >
+                <Link href='/' fontSize='2xl' fontWeight='bold'>
+                    Nick Wentworth
+                </Link>
 
-                {/* FIXME: properly scroll anchors into view */}
-                <div className={styles.headerLinks}>
-                    <a href={`#${TECHNOLOGIES}`}>
-                        <p>Technologies</p>
-                    </a>
+                <Stack
+                    direction='row'
+                    gap='1rem'
+                    justify='center'
+                    fontSize='lg'
+                >
+                    <Link href={`#${TECHNOLOGIES}`}>Technologies</Link>
 
-                    <p>|</p>
+                    <Link href={`#${PROJECTS}`}>Projects</Link>
 
-                    <a href={`#${PROJECTS}`}>
-                        <p>Projects</p>
-                    </a>
+                    <Link href={`#${EXPERIENCE}`}>Experience</Link>
+                </Stack>
 
-                    <p>|</p>
+                <Stack direction='row' justify='end'>
+                    <Link
+                        href='https://github.com/nickwentworth'
+                        target='_blank'
+                    >
+                        <IconButton
+                            aria-label='External GitHub link'
+                            isRound
+                            icon={<GitHub />}
+                        />
+                    </Link>
 
-                    <a href={`#${EXPERIENCE}`}>
-                        <p>Experience</p>
-                    </a>
-                </div>
-
-                <div className={styles.headerIcons}>
-                    <a href='https://github.com/nickwentworth' target='_blank'>
-                        <GitHub />
-                    </a>
-
-                    <a
+                    <Link
                         href='https://www.linkedin.com/in/nickwentworth/'
                         target='_blank'
                     >
-                        <LinkedIn />
-                    </a>
+                        <IconButton
+                            aria-label='External LinkedIn link'
+                            isRound
+                            icon={<LinkedIn />}
+                        />
+                    </Link>
 
-                    <a href='mailto:nickwentworth123@gmail.com' target='_blank'>
-                        <Mail />
-                    </a>
-                </div>
-            </nav>
+                    <Link
+                        href='mailto:nickwentworth123@gmail.com'
+                        target='_blank'
+                    >
+                        <IconButton
+                            aria-label='External mailto link'
+                            isRound
+                            icon={<Mail />}
+                        />
+                    </Link>
+                </Stack>
+            </Grid>
 
             <div className={styles.content}>
                 <div className={styles.intro}>
