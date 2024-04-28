@@ -1,8 +1,18 @@
 import { GitHub, LinkedIn, Mail } from './icons';
 import DotsBackground from './components/DotsBackground';
 import ProjectCard from './components/ProjectCard';
-import { Grid, IconButton, Link, Stack } from '@chakra-ui/react';
-import styles from './app.module.css';
+import {
+    Card,
+    CardBody,
+    Center,
+    Divider,
+    Grid,
+    IconButton,
+    Image,
+    Link,
+    Stack,
+    Text,
+} from '@chakra-ui/react';
 
 // anchor points for header links and main page sections
 const TECHNOLOGIES = 'technologies';
@@ -76,55 +86,72 @@ export default function App() {
                 </Stack>
             </Grid>
 
-            <div className={styles.content}>
-                <div className={styles.intro}>
-                    <div className={styles.introText}>
-                        <h1>Hey there, I'm Nick</h1>
-                        <h3>I am a software developer</h3>
-                    </div>
+            <Stack
+                bg='gray.50'
+                maxW='1200px'
+                m='auto'
+                p='2rem'
+                gap='2rem'
+                divider={<Divider />}
+            >
+                {/* intro */}
+                <Center gap='5rem' p='5rem 0'>
+                    <Stack>
+                        <Text as='b' fontSize='4xl'>
+                            Hey there, I'm Nick
+                        </Text>
 
-                    <img className={styles.introPicture} src='/me.jpg' />
-                </div>
+                        <Text fontSize='xl'>I am a software developer</Text>
+                    </Stack>
 
-                <hr />
+                    <Image
+                        src='me.jpg'
+                        alt='Nick Wentworth'
+                        boxSize='15rem'
+                        borderRadius='full'
+                        shadow='md'
+                    />
+                </Center>
 
-                <h2 id={TECHNOLOGIES}>Technologies</h2>
-                <div className={styles.tech}>
-                    <p>
+                {/* technologies */}
+                <Stack align='center' p='0 2rem'>
+                    <Text fontSize='2xl'>Technologies</Text>
+
+                    <Text>
                         I bring a unique blend of high-level, design-oriented
                         frontend development with the ability to dive deep into
                         performance and optimization through my experience in
                         low-level systems programming.
-                    </p>
+                    </Text>
 
-                    <div className={styles.techLanguages}>
-                        <div className={styles.techLanguage}>
-                            <h3>Fullstack Development</h3>
-                            <p>
+                    <Stack direction='row'>
+                        <Card>
+                            <CardBody>
+                                <Text fontSize='xl'>Fullstack Development</Text>
                                 Years of personal and academic experience
                                 working with modern web development
                                 technologies, including React and Next.js.
                                 Knowledgeable in essential languages: HTML, CSS,
                                 and JS/TS.
-                            </p>
-                        </div>
+                            </CardBody>
+                        </Card>
 
-                        <div className={styles.techLanguage}>
-                            <h3>Systems Programming</h3>
-                            <p>
+                        <Card>
+                            <CardBody>
+                                <Text fontSize='xl'>Systems Programming</Text>
                                 Skilled in performance-demanding systems
                                 programming, with experience as deep as working
                                 on OS drivers and kernel-level code. Specialized
                                 in Rust and C languages.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                            </CardBody>
+                        </Card>
+                    </Stack>
+                </Stack>
 
-                <hr />
+                {/* projects */}
+                <Stack align='center' p='0 2rem'>
+                    <Text fontSize='2xl'>Projects</Text>
 
-                <h2 id={PROJECTS}>Projects</h2>
-                <div className={styles.projects}>
                     <ProjectCard
                         project={{
                             name: 'Rememo',
@@ -169,54 +196,59 @@ export default function App() {
                             ],
                         }}
                     />
-                </div>
+                </Stack>
 
-                <hr />
+                {/* experience */}
+                <Stack p='0 2rem'>
+                    <Text fontSize='2xl' align='center'>
+                        Experience
+                    </Text>
 
-                <h2 id={EXPERIENCE}>Experience</h2>
-                <div className={styles.experience}>
-                    <p>
+                    <Text>
                         I am open to entry-level opportunities! I am excited and
                         ready to begin my professional career as a software
                         engineer.
-                    </p>
+                    </Text>
 
-                    <br />
-
-                    <div className={styles.job}>
-                        <div className={styles.jobHeader}>
-                            <h4>Programming Tutor</h4>
-                            <p>June 2021 - Present</p>
-                        </div>
-
-                        <p>
-                            <i>Independent</i>
-                        </p>
-
-                        <p>
-                            Skilled tutor specializing in programming and
-                            mathematics, teaching students ranging from middle
-                            school to professional-level.
-                        </p>
-
-                        <p>
-                            Interested in being tutored by me? Check out my
-                            tutor profile at{' '}
-                            <a
-                                href='https://www.wyzant.com/tutors/Nicholas2178'
-                                target='_blank'
+                    <Card>
+                        <CardBody>
+                            <Stack
+                                direction='row'
+                                justify='space-between'
+                                align='center'
                             >
-                                Wyzant
-                            </a>{' '}
-                            and send me a message!
-                        </p>
-                    </div>
-                </div>
+                                <Text fontSize='xl'>Programming Tutor</Text>
+                                <Text>June 2021 - Present</Text>
+                            </Stack>
 
-                <hr />
+                            <Text as='i'>Independent</Text>
 
-                <p className={styles.copyright}>© 2024 Nick Wentworth</p>
-            </div>
+                            <Text>
+                                Working as a skilled tutor specializing in
+                                programming and mathematics, with experience
+                                teaching students ranging from middle school to
+                                professional-level.
+                            </Text>
+
+                            <Text as='i'>
+                                Interested in being tutored by me? Visit my
+                                tutoring profile at{' '}
+                                <Link
+                                    href='https://www.wyzant.com/tutors/Nicholas2178'
+                                    color='orange'
+                                    target='_blank'
+                                >
+                                    Wyzant
+                                </Link>{' '}
+                                and send me a message!
+                            </Text>
+                        </CardBody>
+                    </Card>
+                </Stack>
+
+                {/* copyright */}
+                <Center>© 2024 Nick Wentworth - All Rights Reserved</Center>
+            </Stack>
         </DotsBackground>
     );
 }
