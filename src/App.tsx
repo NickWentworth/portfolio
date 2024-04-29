@@ -152,50 +152,52 @@ export default function App() {
                 <Stack align='center' p='0 2rem'>
                     <Text fontSize='2xl'>Projects</Text>
 
-                    <ProjectCard
-                        project={{
-                            name: 'Rememo',
-                            image: 'rememo.png',
-                            description:
-                                'Modern planner application that helps students track their terms, courses, and tasks',
-                            technologies: [
-                                'Next.js',
-                                'React',
-                                'TypeScript',
-                                'tRPC',
-                                'Prisma',
-                                'NextAuth',
-                            ],
-                            link: 'https://rememo.nickwentworth.me',
-                            source: 'https://github.com/NickWentworth/rememo',
-                        }}
-                    />
+                    <Stack>
+                        <ProjectCard
+                            project={{
+                                name: 'Rememo',
+                                image: 'rememo.png',
+                                description:
+                                    'Modern planner application that helps students track their terms, courses, and tasks',
+                                technologies: [
+                                    'Next.js',
+                                    'React',
+                                    'TypeScript',
+                                    'tRPC',
+                                    'Prisma',
+                                    'NextAuth',
+                                ],
+                                link: 'https://rememo.nickwentworth.me',
+                                source: 'https://github.com/NickWentworth/rememo',
+                            }}
+                        />
 
-                    <ProjectCard
-                        project={{
-                            name: 'Otter',
-                            image: 'otter.png',
-                            description:
-                                'Advanced chess engine written fully from scratch',
-                            technologies: ['Rust'],
-                            source: 'https://github.com/NickWentworth/otter',
-                        }}
-                    />
+                        <ProjectCard
+                            project={{
+                                name: 'Otter',
+                                image: 'otter.png',
+                                description:
+                                    'Advanced chess engine written fully from scratch',
+                                technologies: ['Rust'],
+                                source: 'https://github.com/NickWentworth/otter',
+                            }}
+                        />
 
-                    <ProjectCard
-                        project={{
-                            name: 'Team Visualization App',
-                            image: 'teamvis.png',
-                            description:
-                                'Online application built to assist Penn State faculty through the management of their Senior Capstone projects',
-                            technologies: [
-                                'Next.js',
-                                'React',
-                                'TypeScript',
-                                'Prisma',
-                            ],
-                        }}
-                    />
+                        <ProjectCard
+                            project={{
+                                name: 'Team Visualization App',
+                                image: 'teamvis.png',
+                                description:
+                                    'Online application built to assist Penn State faculty through the management of their Senior Capstone projects',
+                                technologies: [
+                                    'Next.js',
+                                    'React',
+                                    'TypeScript',
+                                    'Prisma',
+                                ],
+                            }}
+                        />
+                    </Stack>
                 </Stack>
 
                 {/* experience */}

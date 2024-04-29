@@ -1,5 +1,18 @@
 import { GitHub } from '../icons';
-import styles from './project.module.css';
+import {
+    Card,
+    CardBody,
+    Divider,
+    Flex,
+    IconButton,
+    Image,
+    Link,
+    Spacer,
+    Stack,
+    Tag,
+    Text,
+    Wrap,
+} from '@chakra-ui/react';
 
 type Project = {
     name: string;
@@ -19,33 +32,46 @@ type ProjectCardProps = {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
-        <div className={styles.project}>
-            <div className={styles.image}>
-                {/* TODO: better indicate there is a link here */}
-                <a href={project.link} target='_blank'>
-                    <img src={project.image} />
-                </a>
-            </div>
+        <Card>
+            <CardBody>
+                <Flex direction='row' gap='1rem'>
+                    <Link href={project.link}>
+                        <Image
+                            src={project.image}
+                            maxW='20rem'
+                            borderRadius='0.25rem'
+                        />
+                    </Link>
 
-            <div className={styles.summary}>
-                <a href={project.link} target='_blank'>
-                    <h4>{project.name}</h4>
-                </a>
+                    <Stack flex='1'>
+                        <Link href={project.link} fontSize='xl'>
+                            {project.name}
+                        </Link>
 
-                <p>{project.description}</p>
+                        <Divider />
 
-                <div className={styles.technologies}>
-                    {project.technologies.map((tech) => (
-                        <p key={tech}>{tech}</p>
-                    ))}
-                </div>
+                        <Text>{project.description}</Text>
 
-                {project.source && (
-                    <a href={project.source} target='_blank'>
-                        <GitHub />
-                    </a>
-                )}
-            </div>
-        </div>
+                        <Wrap>
+                            {project.technologies.map((tech) => (
+                                <Tag borderRadius='full'>{tech}</Tag>
+                            ))}
+                        </Wrap>
+
+                        <Spacer />
+
+                        {project.source && (
+                            <Link href={project.source} alignSelf='end'>
+                                <IconButton
+                                    aria-label='Source code link'
+                                    isRound
+                                    icon={<GitHub />}
+                                />
+                            </Link>
+                        )}
+                    </Stack>
+                </Flex>
+            </CardBody>
+        </Card>
     );
 }
