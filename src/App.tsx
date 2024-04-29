@@ -7,7 +7,6 @@ import {
     Center,
     Divider,
     Grid,
-    IconButton,
     Image,
     Link,
     SimpleGrid,
@@ -50,32 +49,20 @@ export default function App() {
                     <Link href={`#${EXPERIENCE}`}>Experience</Link>
                 </Stack>
 
-                <Stack direction='row' justify='end'>
+                <Stack direction='row' gap='1rem' justify='end'>
                     <Link href='https://github.com/nickwentworth' isExternal>
-                        <IconButton
-                            aria-label='External GitHub link'
-                            isRound
-                            icon={<GitHub />}
-                        />
+                        <GitHub fontSize='2xl' />
                     </Link>
 
                     <Link
                         href='https://www.linkedin.com/in/nickwentworth/'
                         isExternal
                     >
-                        <IconButton
-                            aria-label='External LinkedIn link'
-                            isRound
-                            icon={<LinkedIn />}
-                        />
+                        <LinkedIn fontSize='2xl' />
                     </Link>
 
                     <Link href='mailto:nickwentworth123@gmail.com' isExternal>
-                        <IconButton
-                            aria-label='External mailto link'
-                            isRound
-                            icon={<Mail />}
-                        />
+                        <Mail fontSize='2xl' />
                     </Link>
                 </Stack>
             </Grid>

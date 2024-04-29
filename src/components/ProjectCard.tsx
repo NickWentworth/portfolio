@@ -3,7 +3,6 @@ import {
     Card,
     CardBody,
     Divider,
-    IconButton,
     Image,
     Link,
     Spacer,
@@ -56,11 +55,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
                     {project.source && (
                         <Link href={project.source} alignSelf='end' isExternal>
-                            <IconButton
-                                aria-label='Source code link'
-                                isRound
-                                icon={<GitHub />}
-                            />
+                            <GitHub fontSize='2xl' />
                         </Link>
                     )}
                 </Stack>
