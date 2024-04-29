@@ -3,7 +3,6 @@ import {
     Card,
     CardBody,
     Divider,
-    Flex,
     IconButton,
     Image,
     Link,
@@ -34,43 +33,37 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     return (
         <Card>
             <CardBody>
-                <Flex direction='row' gap='1rem'>
+                <Stack h='100%'>
                     <Link href={project.link}>
-                        <Image
-                            src={project.image}
-                            maxW='20rem'
-                            borderRadius='0.25rem'
-                        />
+                        <Image src={project.image} borderRadius='0.25rem' />
                     </Link>
 
-                    <Stack flex='1'>
-                        <Link href={project.link} fontSize='xl'>
-                            {project.name}
+                    <Link href={project.link} fontSize='xl'>
+                        {project.name}
+                    </Link>
+
+                    <Divider />
+
+                    <Text>{project.description}</Text>
+
+                    <Wrap>
+                        {project.technologies.map((tech) => (
+                            <Tag borderRadius='full'>{tech}</Tag>
+                        ))}
+                    </Wrap>
+
+                    <Spacer />
+
+                    {project.source && (
+                        <Link href={project.source} alignSelf='end'>
+                            <IconButton
+                                aria-label='Source code link'
+                                isRound
+                                icon={<GitHub />}
+                            />
                         </Link>
-
-                        <Divider />
-
-                        <Text>{project.description}</Text>
-
-                        <Wrap>
-                            {project.technologies.map((tech) => (
-                                <Tag borderRadius='full'>{tech}</Tag>
-                            ))}
-                        </Wrap>
-
-                        <Spacer />
-
-                        {project.source && (
-                            <Link href={project.source} alignSelf='end'>
-                                <IconButton
-                                    aria-label='Source code link'
-                                    isRound
-                                    icon={<GitHub />}
-                                />
-                            </Link>
-                        )}
-                    </Stack>
-                </Flex>
+                    )}
+                </Stack>
             </CardBody>
         </Card>
     );

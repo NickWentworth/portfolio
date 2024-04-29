@@ -10,6 +10,7 @@ import {
     IconButton,
     Image,
     Link,
+    SimpleGrid,
     Stack,
     Text,
 } from '@chakra-ui/react';
@@ -152,7 +153,7 @@ export default function App() {
                 <Stack align='center' p='0 2rem'>
                     <Text fontSize='2xl'>Projects</Text>
 
-                    <Stack>
+                    <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                         <ProjectCard
                             project={{
                                 name: 'Rememo',
@@ -197,7 +198,7 @@ export default function App() {
                                 ],
                             }}
                         />
-                    </Stack>
+                    </SimpleGrid>
                 </Stack>
 
                 {/* experience */}
