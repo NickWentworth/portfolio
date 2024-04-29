@@ -1,12 +1,11 @@
-import { GitHub, LinkedIn, Mail } from './icons';
 import DotsBackground from './components/DotsBackground';
+import Header from './components/Header';
 import ProjectCard from './components/ProjectCard';
 import {
     Card,
     CardBody,
     Center,
     Divider,
-    Grid,
     Image,
     Link,
     SimpleGrid,
@@ -15,57 +14,16 @@ import {
 } from '@chakra-ui/react';
 
 // anchor points for header links and main page sections
-const TECHNOLOGIES = 'technologies';
-const PROJECTS = 'projects';
-const EXPERIENCE = 'experience';
+export const ANCHORS = {
+    technologies: 'technologies',
+    projects: 'projects',
+    experience: 'experience',
+};
 
 export default function App() {
     return (
         <DotsBackground>
-            <Grid
-                as='nav'
-                bg='white'
-                p='1rem'
-                autoColumns='1fr'
-                autoFlow='column'
-                alignItems='center'
-                pos='sticky'
-                top='0'
-                shadow='md'
-                zIndex='1' // to appear above cards
-            >
-                <Link href='/' fontSize='2xl' fontWeight='bold'>
-                    Nick Wentworth
-                </Link>
-
-                <Stack
-                    direction='row'
-                    gap='1rem'
-                    justify='center'
-                    fontSize='xl'
-                >
-                    <Link href={`#${TECHNOLOGIES}`}>Technologies</Link>
-                    <Link href={`#${PROJECTS}`}>Projects</Link>
-                    <Link href={`#${EXPERIENCE}`}>Experience</Link>
-                </Stack>
-
-                <Stack direction='row' gap='1rem' justify='end'>
-                    <Link href='https://github.com/nickwentworth' isExternal>
-                        <GitHub fontSize='2xl' />
-                    </Link>
-
-                    <Link
-                        href='https://www.linkedin.com/in/nickwentworth/'
-                        isExternal
-                    >
-                        <LinkedIn fontSize='2xl' />
-                    </Link>
-
-                    <Link href='mailto:nickwentworth123@gmail.com' isExternal>
-                        <Mail fontSize='2xl' />
-                    </Link>
-                </Stack>
-            </Grid>
+            <Header />
 
             <Stack
                 bg='gray.50'
@@ -101,7 +59,7 @@ export default function App() {
                 </Stack>
 
                 {/* technologies */}
-                <Stack align='center' p='0 2rem'>
+                <Stack id={ANCHORS.technologies} align='center' p='0 2rem'>
                     <Text fontSize='2xl'>Technologies</Text>
 
                     <Text>
@@ -136,7 +94,7 @@ export default function App() {
                 </Stack>
 
                 {/* projects */}
-                <Stack align='center' p='0 2rem'>
+                <Stack id={ANCHORS.projects} align='center' p='0 2rem'>
                     <Text fontSize='2xl'>Projects</Text>
 
                     <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
@@ -188,7 +146,7 @@ export default function App() {
                 </Stack>
 
                 {/* experience */}
-                <Stack p='0 2rem'>
+                <Stack id={ANCHORS.experience} p='0 2rem'>
                     <Text fontSize='2xl' align='center'>
                         Experience
                     </Text>
