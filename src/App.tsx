@@ -33,6 +33,7 @@ export default function App() {
                 pos='sticky'
                 top='0'
                 shadow='md'
+                zIndex='1' // to appear above cards
             >
                 <Link href='/' fontSize='2xl' fontWeight='bold'>
                     Nick Wentworth
@@ -42,20 +43,15 @@ export default function App() {
                     direction='row'
                     gap='1rem'
                     justify='center'
-                    fontSize='lg'
+                    fontSize='xl'
                 >
                     <Link href={`#${TECHNOLOGIES}`}>Technologies</Link>
-
                     <Link href={`#${PROJECTS}`}>Projects</Link>
-
                     <Link href={`#${EXPERIENCE}`}>Experience</Link>
                 </Stack>
 
                 <Stack direction='row' justify='end'>
-                    <Link
-                        href='https://github.com/nickwentworth'
-                        target='_blank'
-                    >
+                    <Link href='https://github.com/nickwentworth' isExternal>
                         <IconButton
                             aria-label='External GitHub link'
                             isRound
@@ -65,7 +61,7 @@ export default function App() {
 
                     <Link
                         href='https://www.linkedin.com/in/nickwentworth/'
-                        target='_blank'
+                        isExternal
                     >
                         <IconButton
                             aria-label='External LinkedIn link'
@@ -74,10 +70,7 @@ export default function App() {
                         />
                     </Link>
 
-                    <Link
-                        href='mailto:nickwentworth123@gmail.com'
-                        target='_blank'
-                    >
+                    <Link href='mailto:nickwentworth123@gmail.com' isExternal>
                         <IconButton
                             aria-label='External mailto link'
                             isRound
@@ -101,6 +94,7 @@ export default function App() {
                     justify='center'
                     direction={{ base: 'column-reverse', md: 'row' }}
                     columnGap='5rem'
+                    p='5rem 0'
                 >
                     <Stack align={{ base: 'center', md: 'normal' }}>
                         <Text as='b' fontSize='4xl'>
@@ -244,7 +238,7 @@ export default function App() {
                                 <Link
                                     href='https://www.wyzant.com/tutors/Nicholas2178'
                                     color='orange'
-                                    target='_blank'
+                                    isExternal
                                 >
                                     Wyzant
                                 </Link>{' '}

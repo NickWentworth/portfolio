@@ -34,11 +34,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <Card>
             <CardBody>
                 <Stack h='100%'>
-                    <Link href={project.link}>
+                    <Link href={project.link} isExternal>
                         <Image src={project.image} borderRadius='0.25rem' />
                     </Link>
 
-                    <Link href={project.link} fontSize='xl'>
+                    <Link href={project.link} fontSize='xl' isExternal>
                         {project.name}
                     </Link>
 
@@ -55,7 +55,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     <Spacer />
 
                     {project.source && (
-                        <Link href={project.source} alignSelf='end'>
+                        <Link href={project.source} alignSelf='end' isExternal>
                             <IconButton
                                 aria-label='Source code link'
                                 isRound
