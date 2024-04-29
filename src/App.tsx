@@ -91,13 +91,18 @@ export default function App() {
                 bg='gray.50'
                 maxW='1200px'
                 m='auto'
-                p='2rem'
+                p={{ base: '1rem', md: '2rem' }}
                 gap='2rem'
                 divider={<Divider />}
             >
                 {/* intro */}
-                <Center gap='5rem' p='5rem 0'>
-                    <Stack>
+                <Stack
+                    align='center'
+                    justify='center'
+                    direction={{ base: 'column-reverse', md: 'row' }}
+                    columnGap='5rem'
+                >
+                    <Stack align={{ base: 'center', md: 'normal' }}>
                         <Text as='b' fontSize='4xl'>
                             Hey there, I'm Nick
                         </Text>
@@ -112,7 +117,7 @@ export default function App() {
                         borderRadius='full'
                         shadow='md'
                     />
-                </Center>
+                </Stack>
 
                 {/* technologies */}
                 <Stack align='center' p='0 2rem'>
@@ -125,7 +130,7 @@ export default function App() {
                         low-level systems programming.
                     </Text>
 
-                    <Stack direction='row'>
+                    <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                         <Card>
                             <CardBody>
                                 <Text fontSize='xl'>Fullstack Development</Text>
@@ -146,7 +151,7 @@ export default function App() {
                                 in Rust and C languages.
                             </CardBody>
                         </Card>
-                    </Stack>
+                    </SimpleGrid>
                 </Stack>
 
                 {/* projects */}
