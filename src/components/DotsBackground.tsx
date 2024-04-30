@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import styles from './dots.module.css';
 import { dots } from '../lib/dots';
+import { useEffect, useRef } from 'react';
+import { Box, Stack } from '@chakra-ui/react';
 
 export default function DotsBackground(props: React.PropsWithChildren) {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
@@ -17,9 +17,15 @@ export default function DotsBackground(props: React.PropsWithChildren) {
     }, []);
 
     return (
-        <div className={styles.background}>
-            <canvas className={styles.canvas} ref={canvasRef} />
-            <span className={styles.children}>{props.children}</span>
-        </div>
+        <Stack pos='relative' w='100vw' h='100vh' overflow='hidden'>
+            <Box w='100%' h='100%' overflow='auto'>
+                {props.children}
+            </Box>
+
+            <canvas
+                style={{ position: 'absolute', zIndex: '-1' }}
+                ref={canvasRef}
+            />
+        </Stack>
     );
 }
