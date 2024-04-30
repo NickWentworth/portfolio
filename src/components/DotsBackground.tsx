@@ -1,9 +1,16 @@
 import { dots } from '../lib/dots';
 import { useEffect, useRef } from 'react';
-import { Box, Stack } from '@chakra-ui/react';
+import { Box, Stack, useToken } from '@chakra-ui/react';
 
 export default function DotsBackground(props: React.PropsWithChildren) {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
+
+    // use theme colors on dots canvas
+    const [bg, dot, line] = useToken('colors', [
+        'gray.100', // background
+        'gray.800', // dot
+        'gray.400', // connecting line
+    ]);
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -11,7 +18,11 @@ export default function DotsBackground(props: React.PropsWithChildren) {
             return;
         }
 
-        const dotsInterval = dots(canvasRef.current);
+        const dotsInterval = dots(canvasRef.current, {
+            bg,
+            dot,
+            line,
+        });
 
         return () => clearInterval(dotsInterval);
     }, []);
