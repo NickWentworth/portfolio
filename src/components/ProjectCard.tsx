@@ -47,7 +47,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
                     <Wrap>
                         {project.technologies.map((tech) => (
-                            <Tag borderRadius='full'>{tech}</Tag>
+                            <Tag key={tech} borderRadius='full'>
+                                {tech}
+                            </Tag>
                         ))}
                     </Wrap>
 
