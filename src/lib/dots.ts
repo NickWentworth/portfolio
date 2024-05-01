@@ -1,10 +1,9 @@
 // how many times per second to update the dots interval
 const FPS = 60;
 
-const NUM_DOTS = 100; // number of dots to render on the canvas
-const DOT_SIZE = 4; // size in px of each dot
-const DOT_SPEED = 0.5; // max dot speed in px/frame
-const LINE_WIDTH = 1; // line width to draw connections between dot
+const DOT_SIZE = 1.5; // size in px of each dot
+const DOT_SPEED = 30 / FPS; // max dot speed, relative to fps
+const LINE_WIDTH = 0.5; // line width to draw connections between dot
 const LINE_DIST = 200; // max size in px to draw a connection between dots
 
 // colors for dots to be drawn as
@@ -30,15 +29,18 @@ type Dot = {
 /**
  * Draw dots onto the given canvas that bounce around, connected if they are close enough together
  *
- * @returns The interval's id (if created properly)
+ * @returns The interval's id to pass to `clearInterval`
  */
 export function dots(canvas: HTMLCanvasElement, colors: DotColors) {
     // setup canvas to fill screen
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
 
+    // adjust number of dots based on initial screen size
+    const numDots = Math.round((canvas.width * canvas.height) / 10_000);
+
     // generate dots with random positions and velocities
-    const dots: Dot[] = range(NUM_DOTS).map(() => ({
+    const dots: Dot[] = range(numDots).map(() => ({
         pos: {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -102,14 +104,16 @@ function drawFrame(canvas: HTMLCanvasElement, dots: Dot[], colors: DotColors) {
     ctx.fillStyle = colors.bg;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < NUM_DOTS; i++) {
-        // draw each individual dot
-        drawDot(ctx, dots[i], colors);
-
-        // draw the connections between dots
-        for (let j = i + 1; j < NUM_DOTS; j++) {
+    // draw connections between dots first
+    for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
             drawConnection(ctx, dots[i], dots[j], colors);
         }
+    }
+
+    // then draw each dot on top of connections
+    for (let i = 0; i < dots.length; i++) {
+        drawDot(ctx, dots[i], colors);
     }
 }
 
