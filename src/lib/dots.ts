@@ -1,10 +1,11 @@
 // how many times per second to update the dots interval
 const FPS = 60;
 
+const DOT_DENSITY = 30_000; // density of of dots, relative to initial viewport size
 const DOT_SIZE = 1.5; // size in px of each dot
 const DOT_SPEED = 30 / FPS; // max dot speed, relative to fps
 const LINE_WIDTH = 0.5; // line width to draw connections between dot
-const LINE_DIST = 200; // max size in px to draw a connection between dots
+const LINE_DIST = 150; // max size in px to draw a connection between dots
 
 // colors for dots to be drawn as
 type DotColors = {
@@ -37,7 +38,7 @@ export function dots(canvas: HTMLCanvasElement, colors: DotColors) {
     canvas.height = document.body.clientHeight;
 
     // adjust number of dots based on initial screen size
-    const numDots = Math.round((canvas.width * canvas.height) / 10_000);
+    const numDots = Math.round((canvas.width * canvas.height) / DOT_DENSITY);
 
     // generate dots with random positions and velocities
     const dots: Dot[] = range(numDots).map(() => ({

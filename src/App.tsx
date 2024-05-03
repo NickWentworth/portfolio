@@ -61,7 +61,12 @@ export default function App() {
                     divider={<Divider />}
                 >
                     {/* technologies */}
-                    <Stack id={ANCHORS.technologies} align='center' p='0 2rem'>
+                    <Stack
+                        id={ANCHORS.technologies}
+                        align='center'
+                        px='2rem'
+                        gap='1rem'
+                    >
                         <Text fontSize='2xl'>Technologies</Text>
 
                         <Text>
@@ -72,6 +77,7 @@ export default function App() {
                             systems programming.
                         </Text>
 
+                        {/* TODO: add some pictures of the technologies here */}
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                             <Card>
                                 <CardBody>
@@ -101,7 +107,12 @@ export default function App() {
                     </Stack>
 
                     {/* projects */}
-                    <Stack id={ANCHORS.projects} align='center' p='0 2rem'>
+                    <Stack
+                        id={ANCHORS.projects}
+                        align='center'
+                        px='2rem'
+                        gap='1rem'
+                    >
                         <Text fontSize='2xl'>Projects</Text>
 
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
@@ -153,7 +164,7 @@ export default function App() {
                     </Stack>
 
                     {/* experience */}
-                    <Stack id={ANCHORS.experience} p='0 2rem'>
+                    <Stack id={ANCHORS.experience} px='2rem' gap='1rem'>
                         <Text fontSize='2xl' align='center'>
                             Experience
                         </Text>

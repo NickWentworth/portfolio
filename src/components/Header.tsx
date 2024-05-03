@@ -2,6 +2,7 @@ import { GitHub, LinkedIn, Mail } from '../icons';
 import { ANCHORS } from '../App';
 import { Grid, Link, Stack } from '@chakra-ui/react';
 
+// TODO: add mobile-friendly header
 export default function Header() {
     return (
         <Grid
@@ -20,7 +21,7 @@ export default function Header() {
                 Nick Wentworth
             </Link>
 
-            <Stack direction='row' gap='1rem' justify='center' fontSize='xl'>
+            <Stack direction='row' gap='2rem' justify='center' fontSize='lg'>
                 <Link href={`#${ANCHORS.technologies}`}>Technologies</Link>
                 <Link href={`#${ANCHORS.projects}`}>Projects</Link>
                 <Link href={`#${ANCHORS.experience}`}>Experience</Link>

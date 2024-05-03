@@ -33,6 +33,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <Card>
             <CardBody>
                 <Stack h='100%'>
+                    {/* TODO: better communicate there is/isn't a link per project */}
                     <Link href={project.link} isExternal>
                         <Image src={project.image} borderRadius='0.25rem' />
                     </Link>
