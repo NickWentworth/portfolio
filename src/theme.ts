@@ -1,12 +1,10 @@
-import { createMultiStyleConfigHelpers, extendTheme } from '@chakra-ui/react';
+import {
+    createMultiStyleConfigHelpers,
+    defineStyleConfig,
+    extendTheme,
+} from '@chakra-ui/react';
 
-// custom chakra card styling
 const cardHelper = createMultiStyleConfigHelpers(['container']);
-const baseCardStyle = cardHelper.definePartsStyle({
-    container: {
-        bg: 'palette.header',
-    },
-});
 
 export const theme = extendTheme({
     fonts: {
@@ -20,6 +18,7 @@ export const theme = extendTheme({
         palette: {
             header: '#1E2734',
             content: '#2E3D4F',
+            accent: '#9EDD9D',
             dots: {
                 bg: '#253242',
                 dot: '#ffffff',
@@ -28,6 +27,15 @@ export const theme = extendTheme({
         },
     },
     components: {
-        Card: cardHelper.defineMultiStyleConfig({ baseStyle: baseCardStyle }),
+        Card: cardHelper.defineMultiStyleConfig({
+            baseStyle: {
+                container: { bg: 'palette.header' },
+            },
+        }),
+        Link: defineStyleConfig({
+            baseStyle: {
+                _hover: { color: 'palette.accent' },
+            },
+        }),
     },
 });

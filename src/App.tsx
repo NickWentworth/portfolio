@@ -11,7 +11,9 @@ import {
     Link,
     SimpleGrid,
     Stack,
+    Tag,
     Text,
+    Wrap,
 } from '@chakra-ui/react';
 
 // anchor points for header links and main page sections
@@ -20,6 +22,15 @@ export const ANCHORS = {
     projects: 'projects',
     experience: 'experience',
 };
+
+// helper component to apply accent color inline with text
+function Accented(props: React.PropsWithChildren) {
+    return (
+        <Text as='span' color='palette.accent'>
+            {props.children}
+        </Text>
+    );
+}
 
 export default function App() {
     return (
@@ -39,7 +50,9 @@ export default function App() {
                         Hey there, I'm Nick
                     </Text>
 
-                    <Text fontSize='xl'>I am a software developer</Text>
+                    <Text fontSize='xl'>
+                        I am a <Accented>software developer</Accented>
+                    </Text>
                 </Stack>
 
                 <Image
@@ -71,36 +84,73 @@ export default function App() {
 
                         <Text>
                             I bring a unique blend of high-level,
-                            design-oriented frontend development with the
+                            design-oriented{' '}
+                            <Accented>frontend development</Accented> with the
                             ability to dive deep into performance and
-                            optimization through my experience in low-level
-                            systems programming.
+                            optimization through my experience in low-level{' '}
+                            <Accented>systems programming</Accented>.
                         </Text>
 
                         {/* TODO: add some pictures of the technologies here */}
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                             <Card>
                                 <CardBody>
-                                    <Text fontSize='xl'>
-                                        Fullstack Development
-                                    </Text>
-                                    Years of personal and academic experience
-                                    working with modern web development
-                                    technologies, including React and Next.js.
-                                    Knowledgeable in essential languages: HTML,
-                                    CSS, and JS/TS.
+                                    <Stack gap='0.5rem'>
+                                        <Text fontSize='xl'>
+                                            Fullstack Development
+                                        </Text>
+
+                                        <Text>
+                                            Years of personal and academic
+                                            experience working with modern web
+                                            development technologies:
+                                        </Text>
+
+                                        <Wrap direction='row'>
+                                            {[
+                                                'Next.js',
+                                                'React',
+                                                'JS/TS',
+                                                'HTML',
+                                                'CSS',
+                                            ].map((lang) => (
+                                                <Tag
+                                                    key={lang}
+                                                    borderRadius='full'
+                                                >
+                                                    {lang}
+                                                </Tag>
+                                            ))}
+                                        </Wrap>
+                                    </Stack>
                                 </CardBody>
                             </Card>
 
                             <Card>
                                 <CardBody>
-                                    <Text fontSize='xl'>
-                                        Systems Programming
-                                    </Text>
-                                    Skilled in performance-demanding systems
-                                    programming, with experience as deep as
-                                    working on OS drivers and kernel-level code.
-                                    Specialized in Rust and C languages.
+                                    <Stack gap='0.5rem'>
+                                        <Text fontSize='xl'>
+                                            Systems Programming
+                                        </Text>
+
+                                        <Text>
+                                            Skilled in performance-demaning
+                                            programming, with experience as deep
+                                            as working on OS drivers and
+                                            kernel-level code in:
+                                        </Text>
+
+                                        <Wrap direction='row'>
+                                            {['Rust', 'C'].map((lang) => (
+                                                <Tag
+                                                    key={lang}
+                                                    borderRadius='full'
+                                                >
+                                                    {lang}
+                                                </Tag>
+                                            ))}
+                                        </Wrap>
+                                    </Stack>
                                 </CardBody>
                             </Card>
                         </SimpleGrid>
@@ -200,7 +250,8 @@ export default function App() {
                                     tutoring profile at{' '}
                                     <Link
                                         href='https://www.wyzant.com/tutors/Nicholas2178'
-                                        color='orange'
+                                        color='palette.accent'
+                                        textDecor='underline'
                                         isExternal
                                     >
                                         Wyzant
