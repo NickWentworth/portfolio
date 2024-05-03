@@ -52,7 +52,7 @@ export default function App() {
             </Stack>
 
             {/* main content section */}
-            <Box bg='white' shadow='base'>
+            <Box bg='palette.content' shadow='base'>
                 <Stack
                     maxW='1200px'
                     m='auto'

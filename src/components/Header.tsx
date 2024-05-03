@@ -6,7 +6,7 @@ export default function Header() {
     return (
         <Grid
             as='nav'
-            bg='white'
+            bg='palette.header'
             p='1rem'
             autoColumns='1fr'
             autoFlow='column'

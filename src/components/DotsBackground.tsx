@@ -7,9 +7,9 @@ export default function DotsBackground(props: React.PropsWithChildren) {
 
     // use theme colors on dots canvas
     const [bg, dot, line] = useToken('colors', [
-        'gray.100', // background
-        'gray.800', // dot
-        'gray.400', // connecting line
+        'palette.dots.bg', // background
+        'palette.dots.dot', // dot
+        'palette.dots.line', // connecting line
     ]);
 
     useEffect(() => {
