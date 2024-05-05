@@ -8,8 +8,8 @@ const cardHelper = createMultiStyleConfigHelpers(['container']);
 
 export const theme = extendTheme({
     fonts: {
-        heading: "'Inter', sans-serif",
         body: "'Inter', sans-serif",
+        heading: "'JetBrains Mono', monospace",
     },
     config: {
         initialColorMode: 'dark',

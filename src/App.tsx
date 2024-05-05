@@ -7,6 +7,7 @@ import {
     CardBody,
     Center,
     Divider,
+    Heading,
     Image,
     Link,
     SimpleGrid,
@@ -29,6 +30,15 @@ function Accented(props: React.PropsWithChildren) {
         <Text as='span' color='palette.accent'>
             {props.children}
         </Text>
+    );
+}
+
+// helper component for headers of each section
+function SectionHeader(props: { text: string }) {
+    return (
+        <Heading fontSize='2xl' alignSelf='center' color='gray.400'>
+            /*&nbsp;&nbsp;{props.text}&nbsp;&nbsp;*/
+        </Heading>
     );
 }
 
@@ -80,7 +90,7 @@ export default function App() {
                         px='2rem'
                         gap='1rem'
                     >
-                        <Text fontSize='2xl'>Technologies</Text>
+                        <SectionHeader text='Technologies' />
 
                         <Text>
                             I bring a unique blend of high-level,
@@ -163,7 +173,7 @@ export default function App() {
                         px='2rem'
                         gap='1rem'
                     >
-                        <Text fontSize='2xl'>Projects</Text>
+                        <SectionHeader text='Projects' />
 
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                             <ProjectCard
@@ -215,9 +225,7 @@ export default function App() {
 
                     {/* experience */}
                     <Stack id={ANCHORS.experience} px='2rem' gap='1rem'>
-                        <Text fontSize='2xl' align='center'>
-                            Experience
-                        </Text>
+                        <SectionHeader text='Experience' />
 
                         <Text>
                             I am open to entry-level opportunities! I am excited
