@@ -1,4 +1,4 @@
-import { GitHub } from '../icons';
+import { ExternalLink, GitHub } from '../icons';
 import {
     Card,
     CardBody,
@@ -33,14 +33,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <Card>
             <CardBody>
                 <Stack h='100%'>
-                    {/* TODO: better communicate there is/isn't a link per project */}
-                    <Link href={project.link} isExternal>
-                        <Image src={project.image} borderRadius='0.25rem' />
-                    </Link>
+                    <ConditionalLink href={project.link}>
+                        <Stack>
+                            <Image src={project.image} borderRadius='0.25rem' />
 
-                    <Link href={project.link} fontSize='xl' isExternal>
-                        {project.name}
-                    </Link>
+                            <Text fontSize='xl'>
+                                {project.name.concat(' ')}
+                                {project.link && <ExternalLink />}
+                            </Text>
+                        </Stack>
+                    </ConditionalLink>
 
                     <Divider />
 
@@ -64,5 +66,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 </Stack>
             </CardBody>
         </Card>
+    );
+}
+
+type ConditionalLinkProps = React.PropsWithChildren<{
+    href?: string;
+}>;
+
+// conditionally renders a link (if given) around children elements
+function ConditionalLink(props: ConditionalLinkProps) {
+    return props.href ? (
+        <Link href={props.href} isExternal>
+            {props.children}
+        </Link>
+    ) : (
+        props.children
     );
 }
