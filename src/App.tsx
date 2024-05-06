@@ -1,5 +1,5 @@
 import DotsBackground from './components/DotsBackground';
-import Header from './components/Header';
+import Header, { ANCHORS } from './components/Header';
 import ProjectCard from './components/ProjectCard';
 import {
     Box,
@@ -16,13 +16,6 @@ import {
     Text,
     Wrap,
 } from '@chakra-ui/react';
-
-// anchor points for header links and main page sections
-export const ANCHORS = {
-    technologies: 'technologies',
-    projects: 'projects',
-    experience: 'experience',
-};
 
 // helper component to apply accent color inline with text
 function Accented(props: React.PropsWithChildren) {
