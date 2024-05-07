@@ -29,7 +29,7 @@ export const theme = extendTheme({
     components: {
         Card: cardHelper.defineMultiStyleConfig({
             baseStyle: {
-                container: { bg: 'palette.header' },
+                container: { bg: 'palette.dots.bg' },
             },
         }),
         Link: defineStyleConfig({

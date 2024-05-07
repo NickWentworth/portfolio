@@ -80,7 +80,7 @@ export default function App() {
                     <Stack
                         id={ANCHORS.technologies}
                         align='center'
-                        px='2rem'
+                        px={{ base: '0', md: '2rem' }}
                         gap='1rem'
                     >
                         <SectionHeader text='Technologies' />
@@ -163,7 +163,7 @@ export default function App() {
                     <Stack
                         id={ANCHORS.projects}
                         align='center'
-                        px='2rem'
+                        px={{ base: '0', md: '2rem' }}
                         gap='1rem'
                     >
                         <SectionHeader text='Projects' />
@@ -217,7 +217,11 @@ export default function App() {
                     </Stack>
 
                     {/* experience */}
-                    <Stack id={ANCHORS.experience} px='2rem' gap='1rem'>
+                    <Stack
+                        id={ANCHORS.experience}
+                        px={{ base: '0', md: '2rem' }}
+                        gap='1rem'
+                    >
                         <SectionHeader text='Experience' />
 
                         <Text>
