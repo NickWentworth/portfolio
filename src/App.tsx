@@ -228,37 +228,46 @@ export default function App() {
 
                         <Card>
                             <CardBody>
-                                <Stack
-                                    direction='row'
-                                    justify='space-between'
-                                    align='center'
-                                >
-                                    <Text fontSize='xl'>Programming Tutor</Text>
-                                    <Text>June 2021 - Present</Text>
+                                <Stack>
+                                    <Box>
+                                        <Stack
+                                            direction='row'
+                                            justify='space-between'
+                                            align='center'
+                                        >
+                                            <Text fontSize='xl'>
+                                                Programming Tutor
+                                            </Text>
+                                            <Text>June 2021 - Present</Text>
+                                        </Stack>
+
+                                        <Text as='i'>Independent</Text>
+                                    </Box>
+
+                                    <Divider />
+
+                                    <Text>
+                                        Working as a skilled tutor specializing
+                                        in programming and mathematics, with
+                                        experience teaching students ranging
+                                        from middle school to
+                                        professional-level.
+                                    </Text>
+
+                                    <Text as='i'>
+                                        Interested in being tutored by me? Visit
+                                        my tutoring profile at{' '}
+                                        <Link
+                                            href='https://www.wyzant.com/tutors/Nicholas2178'
+                                            color='palette.accent'
+                                            textDecor='underline'
+                                            isExternal
+                                        >
+                                            Wyzant
+                                        </Link>{' '}
+                                        and send me a message!
+                                    </Text>
                                 </Stack>
-
-                                <Text as='i'>Independent</Text>
-
-                                <Text>
-                                    Working as a skilled tutor specializing in
-                                    programming and mathematics, with experience
-                                    teaching students ranging from middle school
-                                    to professional-level.
-                                </Text>
-
-                                <Text as='i'>
-                                    Interested in being tutored by me? Visit my
-                                    tutoring profile at{' '}
-                                    <Link
-                                        href='https://www.wyzant.com/tutors/Nicholas2178'
-                                        color='palette.accent'
-                                        textDecor='underline'
-                                        isExternal
-                                    >
-                                        Wyzant
-                                    </Link>{' '}
-                                    and send me a message!
-                                </Text>
                             </CardBody>
                         </Card>
                     </Stack>
