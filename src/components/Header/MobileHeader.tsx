@@ -51,7 +51,16 @@ export default function MobileHeader() {
                         top='0'
                         width='100%'
                     >
-                        {LINKS}
+                        {/* FIXME: on mobile, header disappears when clicking "Experience" link */}
+                        {LINKS.map((link) => (
+                            <Box
+                                key={link.key}
+                                onClick={onToggle} // toggle menu when link is pressed
+                                width='min-content' // only set box as wide as link
+                            >
+                                {link}
+                            </Box>
+                        ))}
 
                         <Divider />
 
