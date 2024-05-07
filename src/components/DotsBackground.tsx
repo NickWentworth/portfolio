@@ -28,7 +28,7 @@ export default function DotsBackground(props: React.PropsWithChildren) {
     }, []);
 
     return (
-        <Stack pos='relative' w='100vw' h='100vh' overflow='hidden'>
+        <Stack pos='relative' w='100dvw' h='100dvh' overflow='hidden'>
             <Box w='100%' h='100%' overflow='auto'>
                 {props.children}
             </Box>

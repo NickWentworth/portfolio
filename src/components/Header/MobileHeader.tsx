@@ -51,7 +51,6 @@ export default function MobileHeader() {
                         top='0'
                         width='100%'
                     >
-                        {/* FIXME: on mobile, header disappears when clicking "Experience" link */}
                         {LINKS.map((link) => (
                             <Box
                                 key={link.key}
