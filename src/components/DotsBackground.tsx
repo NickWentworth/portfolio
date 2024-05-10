@@ -1,8 +1,8 @@
 import { dots } from '../lib/dots';
 import { useEffect, useRef } from 'react';
-import { Box, Stack, useToken } from '@chakra-ui/react';
+import { Box, useToken } from '@chakra-ui/react';
 
-export default function DotsBackground(props: React.PropsWithChildren) {
+export default function DotsBackground() {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
 
     // use theme colors on dots canvas
@@ -28,15 +28,8 @@ export default function DotsBackground(props: React.PropsWithChildren) {
     }, []);
 
     return (
-        <Stack pos='relative' w='100dvw' h='100dvh' overflow='hidden'>
-            <Box w='100%' h='100%' overflow='auto'>
-                {props.children}
-            </Box>
-
-            <canvas
-                style={{ position: 'absolute', zIndex: '-1' }}
-                ref={canvasRef}
-            />
-        </Stack>
+        <Box h='100dvh' w='100dvw' pos='fixed' top='0' zIndex='-1'>
+            <canvas ref={canvasRef} />
+        </Box>
     );
 }

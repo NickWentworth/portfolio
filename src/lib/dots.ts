@@ -33,9 +33,8 @@ type Dot = {
  * @returns The interval's id to pass to `clearInterval`
  */
 export function dots(canvas: HTMLCanvasElement, colors: DotColors) {
-    // setup canvas to fill screen
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
+    // setup canvas to fill parent element
+    resizeCanvas(canvas);
 
     // adjust number of dots based on initial screen size
     const numDots = Math.round((canvas.width * canvas.height) / DOT_DENSITY);
@@ -53,10 +52,9 @@ export function dots(canvas: HTMLCanvasElement, colors: DotColors) {
         },
     }));
 
-    // resize canvas to fill the background whenever the window is resized
+    // resize canvas whenever the window is resized
     addEventListener('resize', () => {
-        canvas.width = document.body.clientWidth;
-        canvas.height = document.body.clientHeight;
+        resizeCanvas(canvas);
 
         // also draw the frame again to prevent flickering
         drawFrame(canvas, dots, colors);
@@ -67,6 +65,19 @@ export function dots(canvas: HTMLCanvasElement, colors: DotColors) {
         updateFrame(canvas, dots);
         drawFrame(canvas, dots, colors);
     }, 1000 / FPS);
+}
+
+/** Resizes the given canvas to fill its parent element */
+function resizeCanvas(canvas: HTMLCanvasElement) {
+    const parent = canvas.parentElement;
+
+    if (!parent) {
+        console.error('Canvas has no parent to fill!');
+        return;
+    }
+
+    canvas.width = parent.clientWidth;
+    canvas.height = parent.clientHeight;
 }
 
 /** Handles updating the dot positions each frame */

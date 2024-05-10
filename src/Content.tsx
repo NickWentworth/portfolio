@@ -1,5 +1,4 @@
-import DotsBackground from './components/DotsBackground';
-import Header, { ANCHORS } from './components/Header';
+import { ANCHORS } from './components/Header';
 import ProjectCard from './components/ProjectCard';
 import { ExternalLink } from './icons';
 import {
@@ -37,11 +36,9 @@ function SectionHeader(props: { text: string }) {
     );
 }
 
-export default function App() {
+export default function Content() {
     return (
-        <DotsBackground>
-            <Header />
-
+        <>
             {/* intro */}
             <Stack
                 align='center'
@@ -302,6 +299,6 @@ export default function App() {
             <Center py='2rem'>
                 © 2024 Nick Wentworth - All Rights Reserved
             </Center>
-        </DotsBackground>
+        </>
     );
 }
