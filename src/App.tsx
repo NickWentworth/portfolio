@@ -29,7 +29,7 @@ function Accented(props: React.PropsWithChildren) {
 // helper component for headers of each section
 function SectionHeader(props: { text: string }) {
     return (
-        <Heading fontSize='2xl' alignSelf='center' color='theme.300'>
+        <Heading fontSize='2xl' alignSelf='center' color='theme.300' mb='1rem'>
             /*&nbsp;&nbsp;{props.text}&nbsp;&nbsp;*/
         </Heading>
     );
@@ -79,7 +79,6 @@ export default function App() {
                     {/* technologies */}
                     <Stack
                         id={ANCHORS.technologies}
-                        align='center'
                         px={{ base: '0', md: '2rem' }}
                         gap='1rem'
                     >
@@ -94,6 +93,12 @@ export default function App() {
                             <Accented>systems programming</Accented>.
                         </Text>
 
+                        <Text>
+                            I am a passionate problem solver with proficiency
+                            throughout every stage of the development cycle,
+                            from design to deployment.
+                        </Text>
+
                         {/* TODO: add some pictures of the technologies here */}
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap='0.5rem'>
                             <Card>
@@ -104,8 +109,9 @@ export default function App() {
                                         </Text>
 
                                         <Text>
-                                            Years of personal and academic
-                                            experience working with modern web
+                                            Multiple years of both personal and
+                                            academic experience building
+                                            applications using modern web
                                             development technologies:
                                         </Text>
 
@@ -137,10 +143,10 @@ export default function App() {
                                         </Text>
 
                                         <Text>
-                                            Skilled in performance-demaning
-                                            programming, with experience as deep
-                                            as working on OS drivers and
-                                            kernel-level code in:
+                                            Skilled in handling
+                                            performance-demaning systems, with
+                                            experience working as low as device
+                                            drivers and kernel components in:
                                         </Text>
 
                                         <Wrap direction='row'>

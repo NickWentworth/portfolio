@@ -16,7 +16,7 @@ export default function DesktopHeader() {
         >
             {TITLE}
 
-            <Stack direction='row' gap='2rem' justify='center' fontSize='lg'>
+            <Stack direction='row' gap='1.5rem' justify='center'>
                 {LINKS}
             </Stack>
 
