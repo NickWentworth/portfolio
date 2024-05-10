@@ -20,7 +20,7 @@ import {
 // helper component to apply accent color inline with text
 function Accented(props: React.PropsWithChildren) {
     return (
-        <Text as='span' color='palette.accent'>
+        <Text as='span' color='accent'>
             {props.children}
         </Text>
     );
@@ -29,7 +29,7 @@ function Accented(props: React.PropsWithChildren) {
 // helper component for headers of each section
 function SectionHeader(props: { text: string }) {
     return (
-        <Heading fontSize='2xl' alignSelf='center' color='gray.400'>
+        <Heading fontSize='2xl' alignSelf='center' color='theme.300'>
             /*&nbsp;&nbsp;{props.text}&nbsp;&nbsp;*/
         </Heading>
     );
@@ -68,7 +68,7 @@ export default function App() {
             </Stack>
 
             {/* main content section */}
-            <Box bg='palette.content' shadow='base'>
+            <Box bg='theme.700' shadow='base'>
                 <Stack
                     maxW='1200px'
                     m='auto'
@@ -263,7 +263,7 @@ export default function App() {
                                         my tutoring profile at{' '}
                                         <Link
                                             href='https://www.wyzant.com/tutors/Nicholas2178'
-                                            color='palette.accent'
+                                            color='accent'
                                             textDecor='underline'
                                             isExternal
                                         >

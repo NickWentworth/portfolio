@@ -15,26 +15,31 @@ export const theme = extendTheme({
         initialColorMode: 'dark',
     },
     colors: {
-        palette: {
-            header: '#1E2734',
-            content: '#2E3D4F',
-            accent: '#9EDD9D',
-            dots: {
-                bg: '#253242',
-                dot: '#ffffff',
-                line: '#ffffff',
-            },
+        accent: '#9edd9d',
+        theme: {
+            // https://smart-swatch.netlify.app/#2e3d4f
+            50: '#eaf3fe',
+            100: '#cdd8e6',
+            200: '#aebed0',
+            300: '#8fa4bc',
+            400: '#7089a9',
+            500: '#56708f',
+            600: '#435770',
+            700: '#2f3e51',
+            750: '#253242', // added this for transition from 700 (content) to 800 (header)
+            800: '#1a2532',
+            900: '#030d17',
         },
     },
     components: {
         Card: cardHelper.defineMultiStyleConfig({
             baseStyle: {
-                container: { bg: 'palette.dots.bg' },
+                container: { bg: 'theme.750' },
             },
         }),
         Link: defineStyleConfig({
             baseStyle: {
-                _hover: { color: 'palette.accent' },
+                _hover: { color: 'accent' },
             },
         }),
     },

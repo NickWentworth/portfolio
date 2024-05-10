@@ -22,7 +22,7 @@ export default function MobileHeader() {
         >
             {/* header */}
             <Flex
-                bg='palette.header'
+                bg='theme.800'
                 p='1rem'
                 align='center'
                 justify='space-between'
@@ -43,7 +43,7 @@ export default function MobileHeader() {
             {isOpen && (
                 <Box pos='relative'>
                     <Stack
-                        bg='palette.header'
+                        bg='theme.800'
                         p='1rem'
                         gap='1rem'
                         shadow='md'

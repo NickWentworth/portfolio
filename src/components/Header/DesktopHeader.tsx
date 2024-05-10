@@ -5,7 +5,7 @@ export default function DesktopHeader() {
     return (
         <Flex
             as='nav'
-            bg='palette.header'
+            bg='theme.800'
             p='1rem'
             align='center'
             justify='space-between'
