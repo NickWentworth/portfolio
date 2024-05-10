@@ -1,8 +1,10 @@
 import DotsBackground from './components/DotsBackground';
 import Header, { ANCHORS } from './components/Header';
 import ProjectCard from './components/ProjectCard';
+import { ExternalLink } from './icons';
 import {
     Box,
+    Button,
     Card,
     CardBody,
     Center,
@@ -20,7 +22,7 @@ import {
 // helper component to apply accent color inline with text
 function Accented(props: React.PropsWithChildren) {
     return (
-        <Text as='span' color='accent'>
+        <Text as='span' color='accent.200'>
             {props.children}
         </Text>
     );
@@ -269,7 +271,7 @@ export default function App() {
                                         my tutoring profile at{' '}
                                         <Link
                                             href='https://www.wyzant.com/tutors/Nicholas2178'
-                                            color='accent'
+                                            color='accent.200'
                                             textDecor='underline'
                                             isExternal
                                         >
@@ -280,6 +282,18 @@ export default function App() {
                                 </Stack>
                             </CardBody>
                         </Card>
+
+                        <Link
+                            href='/nick-wentworth-resume.pdf'
+                            alignSelf='center'
+                            isExternal
+                        >
+                            <Button colorScheme='accent'>
+                                <Text>
+                                    View Full Resume <ExternalLink />
+                                </Text>
+                            </Button>
+                        </Link>
                     </Stack>
                 </Stack>
             </Box>

@@ -15,7 +15,19 @@ export const theme = extendTheme({
         initialColorMode: 'dark',
     },
     colors: {
-        accent: '#9edd9d',
+        accent: {
+            // https://smart-swatch.netlify.app/#9edd9d
+            50: '#e7fae7',
+            100: '#c5ecc4',
+            200: '#a1dea0',
+            300: '#7dd17b',
+            400: '#59c457',
+            500: '#40aa3d',
+            600: '#31852f',
+            700: '#225f21',
+            800: '#123912',
+            900: '#011501',
+        },
         theme: {
             // https://smart-swatch.netlify.app/#2e3d4f
             50: '#eaf3fe',
@@ -39,7 +51,7 @@ export const theme = extendTheme({
         }),
         Link: defineStyleConfig({
             baseStyle: {
-                _hover: { color: 'accent' },
+                _hover: { color: 'accent.200' },
             },
         }),
     },
