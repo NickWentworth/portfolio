@@ -8,6 +8,7 @@ import {
     CardBody,
     Center,
     Divider,
+    Flex,
     Heading,
     Image,
     Link,
@@ -71,7 +72,8 @@ export default function Content() {
                 <Stack
                     maxW='1200px'
                     m='auto'
-                    p={{ base: '1rem', md: '2rem' }}
+                    py='2rem'
+                    px={{ base: '1rem', md: '2rem' }}
                     gap='2rem'
                     divider={<Divider />}
                 >
@@ -239,16 +241,19 @@ export default function Content() {
                             <CardBody>
                                 <Stack>
                                     <Box>
-                                        <Stack
-                                            direction='row'
+                                        <Flex
+                                            align='baseline'
                                             justify='space-between'
-                                            align='center'
+                                            gap='0.5rem'
                                         >
                                             <Text fontSize='xl'>
                                                 Programming Tutor
                                             </Text>
-                                            <Text>June 2021 - Present</Text>
-                                        </Stack>
+
+                                            <Text textAlign='end'>
+                                                June 2021 - Present
+                                            </Text>
+                                        </Flex>
 
                                         <Text as='i'>Independent</Text>
                                     </Box>
@@ -256,10 +261,10 @@ export default function Content() {
                                     <Divider />
 
                                     <Text>
-                                        Working as a skilled tutor specializing
-                                        in programming and mathematics, with
-                                        experience teaching students ranging
-                                        from middle school to
+                                        Working as a skilled private tutor
+                                        specializing in programming and
+                                        mathematics, with experience teaching
+                                        students ranging from middle school to
                                         professional-level.
                                     </Text>
 

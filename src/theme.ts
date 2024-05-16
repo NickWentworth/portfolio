@@ -1,7 +1,9 @@
 import {
+    type ColorModeProviderProps,
     createMultiStyleConfigHelpers,
     defineStyleConfig,
     extendTheme,
+    localStorageManager,
 } from '@chakra-ui/react';
 
 const cardHelper = createMultiStyleConfigHelpers(['container']);
@@ -56,3 +58,13 @@ export const theme = extendTheme({
         }),
     },
 });
+
+type StorageManager = ColorModeProviderProps['colorModeManager'];
+
+/**
+ * Custom color mode manager that overrides get() function to always return dark mode
+ */
+export const cmm: StorageManager = {
+    ...localStorageManager,
+    get: () => 'dark',
+};
