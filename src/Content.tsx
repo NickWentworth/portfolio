@@ -145,7 +145,7 @@ export default function Content() {
 
                                         <Text>
                                             Skilled in handling
-                                            performance-demaning systems, with
+                                            performance-demanding systems, with
                                             experience working as low as device
                                             drivers and kernel components in:
                                         </Text>
