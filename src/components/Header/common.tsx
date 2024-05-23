@@ -1,5 +1,5 @@
 import { GitHub, LinkedIn, Mail } from '../../icons';
-import { Link } from '@chakra-ui/react';
+import { Heading, Link } from '@chakra-ui/react';
 
 // anchor points for header links and main page sections
 export const ANCHORS = {
@@ -10,8 +10,10 @@ export const ANCHORS = {
 
 /** Title component for header */
 export const TITLE = (
-    <Link href='/' fontSize='xl' fontWeight='bold'>
-        Nick Wentworth
+    <Link href='/'>
+        <Heading fontSize='3xl' color='accent.200'>
+            NW
+        </Heading>
     </Link>
 );
 
