@@ -1,16 +1,18 @@
-import { dots } from '../lib/dots';
+'use client';
+
+import { dots } from '@/lib/dots';
 import { useEffect, useRef } from 'react';
-import { Box, useToken } from '@chakra-ui/react';
 
 export default function DotsBackground() {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
 
     // use theme colors on dots canvas
-    const [bg, dot, line] = useToken('colors', [
-        'theme.750', // background
-        'theme.50', // dot
-        'theme.300', // connecting line
-    ]);
+    const [bg, dot, line] = ['#ff0000', '#00ff00', '#0000ff'];
+    // const [bg, dot, line] = useToken('colors', [
+    //     'theme.750', // background
+    //     'theme.50', // dot
+    //     'theme.300', // connecting line
+    // ]);
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -28,8 +30,8 @@ export default function DotsBackground() {
     }, []);
 
     return (
-        <Box h='100dvh' w='100dvw' pos='fixed' top='0' zIndex='-1'>
+        <div className='w-full h-full fixed top-0 -z-10'>
             <canvas ref={canvasRef} />
-        </Box>
+        </div>
     );
 }
