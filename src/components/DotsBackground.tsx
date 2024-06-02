@@ -3,16 +3,12 @@
 import { dots } from '@/lib/dots';
 import { useEffect, useRef } from 'react';
 
-export default function DotsBackground() {
+export function DotsBackground() {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
 
+    // TODO: reference tailwind theme base (750, 50, 300) respectively
     // use theme colors on dots canvas
-    const [bg, dot, line] = ['#ff0000', '#00ff00', '#0000ff'];
-    // const [bg, dot, line] = useToken('colors', [
-    //     'theme.750', // background
-    //     'theme.50', // dot
-    //     'theme.300', // connecting line
-    // ]);
+    const [bg, dot, line] = ['#253242', '#eaf3fe', '#8fa4bc'];
 
     useEffect(() => {
         if (!canvasRef.current) {
