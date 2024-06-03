@@ -1,9 +1,6 @@
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
-import { notFound } from 'next/navigation';
+import { BlogNav } from '@/components/blog/BlogNav';
+import { getAllPostPaths, getPostText } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-
-const POSTS_PATH = join(process.cwd(), 'src', 'posts');
 
 type PageProps = {
     params: {
@@ -12,24 +9,25 @@ type PageProps = {
 };
 
 export default async (props: PageProps) => {
-    try {
-        const path = join(POSTS_PATH, ...props.params.post).concat('.md');
-        const file = readFileSync(path);
-        const text = file.toString();
+    const text = getPostText(props.params.post);
 
-        return <MDXRemote source={text} />;
-    } catch {
-        notFound();
-    }
+    return (
+        <div className='flex'>
+            <BlogNav />
+
+            <div className='bg-base-700 grow p-4'>
+                {text === undefined ? (
+                    <p>Error: file not found</p>
+                ) : (
+                    <MDXRemote source={text} />
+                )}
+            </div>
+        </div>
+    );
 };
 
 export function generateStaticParams() {
-    return readdirSync(POSTS_PATH, {
-        recursive: true,
-    })
-        .map((path) => path.toString())
-        .filter((path) => path.endsWith('.md'))
-        .map((path) => path.replace('.md', ''))
-        .map((path) => path.split('\\'))
-        .map((route) => ({ post: route }));
+    return getAllPostPaths().map((path) => ({
+        post: path,
+    }));
 }
