@@ -1,5 +1,4 @@
-import { BlogNav } from '@/components/blog/BlogNav';
-import { getAllPostPaths, getPostText } from '@/lib/posts';
+import { getPostMeta, getPostText } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 type PageProps = {
@@ -8,26 +7,18 @@ type PageProps = {
     };
 };
 
-export default async (props: PageProps) => {
-    const text = getPostText(props.params.post);
+export default (props: PageProps) => {
+    const text = getPostText(props.params.post[0], props.params.post[1]);
 
-    return (
-        <div className='flex'>
-            <BlogNav />
+    if (text === undefined) {
+        return <p>Error: file not found</p>;
+    }
 
-            <div className='bg-base-700 grow p-4'>
-                {text === undefined ? (
-                    <p>Error: file not found</p>
-                ) : (
-                    <MDXRemote source={text} />
-                )}
-            </div>
-        </div>
-    );
+    return <MDXRemote source={text} />;
 };
 
 export function generateStaticParams() {
-    return getAllPostPaths().map((path) => ({
-        post: path,
+    return getPostMeta().map((meta) => ({
+        post: meta.params,
     }));
 }
