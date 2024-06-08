@@ -1,6 +1,6 @@
 import { Card } from '@/components/common';
 import Link from 'next/link';
-import { getCategoryMeta, getPostMeta, getPostText } from '@/lib/posts';
+import { categoryIndexPosts, getPostText, postsByCategory } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 type PageProps = {
@@ -9,9 +9,9 @@ type PageProps = {
     };
 };
 
-export default (props: PageProps) => {
+export default async (props: PageProps) => {
     const text = getPostText(props.params.category);
-    const posts = getPostMeta(props.params.category);
+    const posts = await postsByCategory(props.params.category);
 
     if (text === undefined) {
         return <p>Error: file not found</p>;
@@ -19,15 +19,15 @@ export default (props: PageProps) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <MDXRemote source={text} />
+            <MDXRemote source={text} options={{ parseFrontmatter: true }} />
 
             <hr />
 
             <div className='grid grid-cols-2 gap-4'>
                 {posts.map((post) => (
-                    <Link key={post.title} href={post.href}>
+                    <Link key={post.href} href={post.href}>
                         <Card>
-                            <h5>{post.title}</h5>
+                            <h5>{post.frontmatter.title}</h5>
                         </Card>
                     </Link>
                 ))}
@@ -36,8 +36,10 @@ export default (props: PageProps) => {
     );
 };
 
-export function generateStaticParams() {
-    return getCategoryMeta().map((category) => ({
-        category,
+export async function generateStaticParams() {
+    const categories = await categoryIndexPosts();
+
+    return categories.map((category) => ({
+        category: category.category,
     }));
 }

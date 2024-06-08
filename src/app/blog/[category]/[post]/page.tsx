@@ -1,4 +1,4 @@
-import { getCategoryMeta, getPostMeta, getPostText } from '@/lib/posts';
+import { categoryIndexPosts, getPostText, postsByCategory } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 type PageProps = {
@@ -15,14 +15,20 @@ export default (props: PageProps) => {
         return <p>Error: file not found</p>;
     }
 
-    return <MDXRemote source={text} />;
+    return <MDXRemote source={text} options={{ parseFrontmatter: true }} />;
 };
 
-export function generateStaticParams() {
-    return getCategoryMeta().flatMap((category) =>
-        getPostMeta(category).map((post) => ({
-            category,
-            post: post.title,
-        }))
-    );
+export async function generateStaticParams() {
+    const categories = await categoryIndexPosts();
+
+    const params = categories.flatMap(async (category) => {
+        const posts = await postsByCategory(category.category);
+
+        return posts.map((post) => ({
+            category: post.category,
+            post: post.post,
+        }));
+    });
+
+    return await Promise.all(params);
 }

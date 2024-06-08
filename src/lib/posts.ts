@@ -1,48 +1,72 @@
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { serialize } from 'next-mdx-remote/serialize';
 
 const BLOG_HREF = '/blog';
 const POSTS_DIR = join(process.cwd(), 'src', 'posts');
 
 // TODO: enforce ordering on posts, ex: first by category, then by ordering number
-// TODO: use a proper title (likely through frontmatter) instead of href
+// TODO: write some unit tests
 
-type CategoryMeta = string;
-
-export function getCategoryMeta(): CategoryMeta[] {
-    return readdirSync(POSTS_DIR, { withFileTypes: true })
-        .filter((category) => category.isDirectory())
-        .map((category) => category.name);
-}
-
-type PostMeta = {
+type PostMetadata = {
     category: string;
-    title: string;
-
-    /** Link that this post lives at, includes `blog/` */
+    post: string;
+    frontmatter: PostFrontmatter;
+    isCategoryIndex: boolean;
     href: string;
+};
 
-    /** List of dynamic route params to find this post, relative to `/blog`, meant to be passed to `generateStaticParams` */
-    params: string[];
+type PostFrontmatter = {
+    title: string;
 };
 
 /**
- * Returns a list of `PostMeta` objects with one matching each post
+ * Returns `PostMeta` objects for each category index post that exists,
+ * where they are expected as `/posts/<category>/0-<category.md`
  */
-export function getPostMeta(category: string): PostMeta[] {
-    const pathToCategory = join(POSTS_DIR, category);
-    const files = readdirSync(pathToCategory);
+export async function categoryIndexPosts() {
+    const categories = readdirSync(POSTS_DIR, { withFileTypes: true })
+        .filter((category) => category.isDirectory())
+        .map(async ({ name }) => {
+            const pathToIndex = join(POSTS_DIR, name, `0-${name}.md`);
+            const frontmatter = await parseFrontmatter(pathToIndex);
 
-    return files
-        .map((filename) => parseFilename(filename))
-        .filter((meta) => meta.extension === 'md')
-        .filter((meta) => meta.order !== 0)
-        .map((meta) => ({
-            category,
-            title: meta.title,
-            href: `${BLOG_HREF}/${category}/${meta.title}`,
-            params: [category, meta.title],
-        }));
+            return {
+                category: name,
+                post: name,
+                frontmatter,
+                isCategoryIndex: true,
+                href: `${BLOG_HREF}/${name}`,
+            } satisfies PostMetadata;
+        });
+
+    return await Promise.all(categories);
+}
+
+/**
+ * Returns `PostMeta` objects for each post in the given category, all but the category index posts
+ */
+export async function postsByCategory(category: string) {
+    const pathToCategory = join(POSTS_DIR, category);
+
+    const posts = readdirSync(pathToCategory)
+        .map((post) => parsePostFilename(post))
+        .filter((post) => post.extension === 'md')
+        .filter((post) => post.order !== 0)
+        .map(async ({ filename, title }) => {
+            const pathToPost = join(pathToCategory, filename);
+            const frontmatter = await parseFrontmatter(pathToPost);
+
+            return {
+                category,
+                post: title,
+                frontmatter,
+                isCategoryIndex: false,
+                href: `${BLOG_HREF}/${category}/${title}`,
+            } satisfies PostMetadata;
+        });
+
+    return await Promise.all(posts);
 }
 
 /**
@@ -60,7 +84,7 @@ export function getPostText(category: string, post?: string) {
     }
 
     const match = readdirSync(pathToCategory).find((filename) => {
-        const meta = parseFilename(filename);
+        const meta = parsePostFilename(filename);
 
         if (post === undefined) {
             return category === meta.title && meta.order === 0;
@@ -75,15 +99,28 @@ export function getPostText(category: string, post?: string) {
     }
 }
 
+// TODO: verify the file actually exists, contains frontmatter, and frontmatter is correct shape
+/**
+ * Parses the given absolute path's frontmatter
+ */
+async function parseFrontmatter(path: string) {
+    const source = readFileSync(path).toString();
+    const { frontmatter } = await serialize<any, PostFrontmatter>(source, {
+        parseFrontmatter: true,
+    });
+
+    return frontmatter;
+}
+
 /**
  * Parses the given filename in the form `<order>-<title>.<extension>` into an object
  */
-function parseFilename(filename: string) {
+function parsePostFilename(filename: string) {
     const [rest, extension] = filename.split('.');
     const split = rest.split('-');
 
     const order = Number.parseInt(split[0]);
     const title = split.slice(1).join('-');
 
-    return { extension, title, order };
+    return { filename, extension, title, order };
 }
