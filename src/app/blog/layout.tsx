@@ -1,4 +1,4 @@
-import { BlogNav } from '@/components/blog/BlogNav';
+import { BlogNav } from '@/components/BlogNav';
 
 export default (props: React.PropsWithChildren) => {
     return (

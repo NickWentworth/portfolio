@@ -8,7 +8,7 @@ const POSTS_DIR = join(process.cwd(), 'src', 'posts');
 // TODO: enforce ordering on posts, ex: first by category, then by ordering number
 // TODO: write some unit tests
 
-type PostMetadata = {
+export type PostMetadata = {
     category: string;
     post: string;
     frontmatter: PostFrontmatter;
