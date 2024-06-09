@@ -1,12 +1,12 @@
+import { BlogPostTitle } from '@/components/BlogPostTitle';
 import { Icon } from '@/components/common';
 import Link from 'next/link';
 import {
     categoryIndexPosts,
+    compilePost,
     getNeighboringPosts,
-    getPostText,
     postsByCategory,
 } from '@/lib/posts';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 
 type PageProps = {
     params: {
@@ -16,20 +16,25 @@ type PageProps = {
 };
 
 export default async (props: PageProps) => {
-    const text = getPostText(props.params.category, props.params.post);
+    const compiled = await compilePost(
+        props.params.category,
+        props.params.post
+    );
 
     const [prevPost, nextPost] = await getNeighboringPosts(
         props.params.category,
         props.params.post
     );
 
-    if (text === undefined) {
+    if (compiled === undefined) {
         return <p>Error: file not found</p>;
     }
 
     return (
         <div className='flex flex-col gap-4'>
-            <MDXRemote source={text} options={{ parseFrontmatter: true }} />
+            <BlogPostTitle frontmatter={compiled.frontmatter} />
+
+            {compiled.content}
 
             <hr />
 

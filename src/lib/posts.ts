@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { serialize } from 'next-mdx-remote/serialize';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
 const BLOG_HREF = '/blog';
 const POSTS_DIR = join(process.cwd(), 'src', 'posts');
@@ -16,7 +17,7 @@ export type PostMetadata = {
     href: string;
 };
 
-type PostFrontmatter = {
+export type PostFrontmatter = {
     title: string;
 };
 
@@ -94,7 +95,7 @@ export async function getNeighboringPosts(category: string, post: string) {
  *
  * If post name is given, will search for the `post` in the given `category` at `posts/<category>/<order>-<post>.md`
  */
-export function getPostText(category: string, post?: string) {
+export async function compilePost(category: string, post?: string) {
     const pathToCategory = join(POSTS_DIR, category);
 
     if (!existsSync(pathToCategory)) {
@@ -111,10 +112,18 @@ export function getPostText(category: string, post?: string) {
         }
     });
 
-    if (match) {
-        const pathToPost = join(pathToCategory, match);
-        return readFileSync(pathToPost).toString();
+    if (match === undefined) {
+        return undefined;
     }
+
+    const pathToPost = join(pathToCategory, match);
+    const text = readFileSync(pathToPost).toString();
+
+    return await compileMDX<PostFrontmatter>({
+        source: text,
+        options: { parseFrontmatter: true },
+        components: {},
+    });
 }
 
 // TODO: verify the file actually exists, contains frontmatter, and frontmatter is correct shape

@@ -1,7 +1,7 @@
+import { BlogPostTitle } from '@/components/BlogPostTitle';
 import { Card } from '@/components/common';
 import Link from 'next/link';
-import { categoryIndexPosts, getPostText, postsByCategory } from '@/lib/posts';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { categoryIndexPosts, compilePost, postsByCategory } from '@/lib/posts';
 
 type PageProps = {
     params: {
@@ -10,18 +10,18 @@ type PageProps = {
 };
 
 export default async (props: PageProps) => {
-    const text = getPostText(props.params.category);
+    const compiled = await compilePost(props.params.category);
     const posts = await postsByCategory(props.params.category);
 
-    if (text === undefined) {
+    if (compiled === undefined) {
         return <p>Error: file not found</p>;
     }
 
     return (
         <div className='flex flex-col gap-4'>
-            <MDXRemote source={text} options={{ parseFrontmatter: true }} />
+            <BlogPostTitle frontmatter={compiled.frontmatter} />
 
-            <hr />
+            {compiled.content}
 
             <div className='grid grid-cols-2 gap-4'>
                 {posts.map((post) => (
