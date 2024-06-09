@@ -70,6 +70,24 @@ export async function postsByCategory(category: string) {
 }
 
 /**
+ * Returns the previous and next `PostMeta`s from the given one for usage in navigation
+ *
+ * If the post is the first or last, previous or next will be undefined, respectively
+ */
+export async function getNeighboringPosts(category: string, post: string) {
+    const posts = await postsByCategory(category);
+
+    const postIdx = posts.findIndex((p) => p.post === post);
+
+    if (postIdx === 0) {
+        // at(-1) returns the end of list, so return undefined if no previous post
+        return [undefined, posts.at(postIdx + 1)] as const;
+    } else {
+        return [posts.at(postIdx - 1), posts.at(postIdx + 1)] as const;
+    }
+}
+
+/**
  * Given a category and optional post name, returns the plain text value of a markdown file (if exists)
  *
  * If post name is undefined, will search for the `category` index file at `posts/<category>/0-<category>.md`

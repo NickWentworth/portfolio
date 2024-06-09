@@ -1,9 +1,21 @@
 import { IconBaseProps, type IconType } from 'react-icons';
 import { AiFillGithub, AiOutlineMenu } from 'react-icons/ai';
 import { FiExternalLink } from 'react-icons/fi';
-import { IoLogoLinkedin, IoMail } from 'react-icons/io5';
+import {
+    IoChevronBack,
+    IoChevronForward,
+    IoLogoLinkedin,
+    IoMail,
+} from 'react-icons/io5';
 
-type IconName = 'link' | 'github' | 'linkedin' | 'mail' | 'menu';
+type IconName =
+    | 'link'
+    | 'github'
+    | 'linkedin'
+    | 'mail'
+    | 'menu'
+    | 'left'
+    | 'right';
 
 function getIcon(icon: IconName): IconType {
     switch (icon) {
@@ -17,6 +29,10 @@ function getIcon(icon: IconName): IconType {
             return IoMail;
         case 'menu':
             return AiOutlineMenu;
+        case 'left':
+            return IoChevronBack;
+        case 'right':
+            return IoChevronForward;
     }
 }
 
