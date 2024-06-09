@@ -8,33 +8,17 @@ import {
     IoMail,
 } from 'react-icons/io5';
 
-type IconName =
-    | 'link'
-    | 'github'
-    | 'linkedin'
-    | 'mail'
-    | 'menu'
-    | 'left'
-    | 'right';
+const ICON_TABLE = {
+    link: FiExternalLink,
+    menu: AiOutlineMenu,
+    left: IoChevronBack,
+    right: IoChevronForward,
+    github: AiFillGithub,
+    linkedin: IoLogoLinkedin,
+    mail: IoMail,
+} satisfies Record<string, IconType>;
 
-function getIcon(icon: IconName): IconType {
-    switch (icon) {
-        case 'link':
-            return FiExternalLink;
-        case 'github':
-            return AiFillGithub;
-        case 'linkedin':
-            return IoLogoLinkedin;
-        case 'mail':
-            return IoMail;
-        case 'menu':
-            return AiOutlineMenu;
-        case 'left':
-            return IoChevronBack;
-        case 'right':
-            return IoChevronForward;
-    }
-}
+type IconName = keyof typeof ICON_TABLE;
 
 type IconProps = IconBaseProps & {
     icon: IconName;
@@ -43,7 +27,7 @@ type IconProps = IconBaseProps & {
 export function Icon(props: IconProps) {
     const { icon, ...iconBaseProps } = props;
 
-    const _Icon = getIcon(props.icon);
+    const _Icon = ICON_TABLE[props.icon];
 
     return <_Icon size='28' {...iconBaseProps} />;
 }
