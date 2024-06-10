@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { serialize } from 'next-mdx-remote/serialize';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import { Bitboard } from '@/components/Bitboard';
 
 const BLOG_HREF = '/blog';
 const POSTS_DIR = join(process.cwd(), 'src', 'posts');
@@ -122,7 +123,9 @@ export async function compilePost(category: string, post?: string) {
     return await compileMDX<PostFrontmatter>({
         source: text,
         options: { parseFrontmatter: true },
-        components: {},
+        components: {
+            Bitboard,
+        },
     });
 }
 
