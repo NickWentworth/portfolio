@@ -9,9 +9,7 @@ const range = (n: number) => Array.from({ length: n }).map((_, idx) => idx);
 export function Bitboard(props: BitboardProps) {
     return (
         <div className='flex flex-col items-center gap-2'>
-            {props.description && (
-                <p className='font-mono'>{props.description}</p>
-            )}
+            {props.description && <code>{props.description}</code>}
 
             {/* chess board */}
             <div className='bg-base-800 grid grid-cols-8 gap-px'>

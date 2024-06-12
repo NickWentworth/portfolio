@@ -49,4 +49,18 @@ body {
         @apply inline-block;
         @apply transition-all duration-75 ease-out;
     }
+
+    code {
+        @apply bg-base-800 px-1.5 py-px rounded-md;
+    }
+
+    ol {
+        @apply list-decimal pl-6;
+    }
+    ul {
+        @apply list-disc pl-6;
+    }
+    li {
+        @apply py-0.5;
+    }
 }
