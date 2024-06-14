@@ -8,7 +8,7 @@ The first step in writing a chess engine is deciding how to represent the board 
 
 Modern computers are built and optimized to work with 64-bit values very efficiently. Conveniently, there are also exactly 64 squares on a chess board. This is the inspiration behind a [bitboard](https://www.chessprogramming.org/Bitboards), which is simply a 64 bit integer, able to store 1 bit of information per square on the board.
 
-<Bitboard squares={[]} showNumbers />
+<Bitboard squares={[]} showOffsetsFrom={0} />
 
 Since there can be 12 different pieces per square, we need to decide what data to store to have full information on the board, but without working with too many bitboards. Typically, engines store 8 different bitboards to represent the current positions on a full chess board:
 

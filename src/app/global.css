@@ -53,6 +53,9 @@ body {
     code {
         @apply bg-base-800 px-1.5 py-px rounded-md;
     }
+    pre > code {
+        @apply block p-4 rounded-lg;
+    }
 
     ol {
         @apply list-decimal pl-6;

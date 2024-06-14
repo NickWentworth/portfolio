@@ -1,7 +1,7 @@
 type BitboardProps = {
     description?: string;
     squares: number[];
-    showNumbers?: boolean;
+    showOffsetsFrom?: number;
 };
 
 const range = (n: number) => Array.from({ length: n }).map((_, idx) => idx);
@@ -22,7 +22,9 @@ export function Bitboard(props: BitboardProps) {
                                 : 'bg-base-200/50'
                         }`}
                     >
-                        {props.showNumbers && <p>{square}</p>}
+                        {props.showOffsetsFrom !== undefined && (
+                            <p>{square - props.showOffsetsFrom}</p>
+                        )}
                     </div>
                 ))}
             </div>

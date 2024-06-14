@@ -14,6 +14,7 @@ export const blogComponents = {
             <hr />
         </div>
     ),
+    h2: ({ children }) => <h3>{children}</h3>,
     a: ({ children, href }) => (
         <a href={href} className='text-accent-200' target='_blank'>
             {children}
