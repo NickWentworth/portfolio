@@ -108,4 +108,91 @@ This is what the process looks like visually with the initial white knight on `b
 
 ## Pawns
 
+Although `Pawn`s are technically jumping pieces, they have some extra rules to them. Let's split up pawn moves into 3 categories:
+
+1. Single advancement
+    - The simplest type of pawn move and nearly the same as for other jumping pieces. Shift the pawn in the correct direction, `Direction::N` for `White`, `Direction::S` for `Black`.
+    - The only difference here is we want to mask out ALL other pieces, because a pawn advancement cannot take opposing pieces either.
+2. Double advancement
+    - Same as single advancement, except only consider a double move if the pawn is on its home rank and the single move was successful after the masking.
+    - In practice, this is done by simply taking the resulting single advancement bitboard and shifting it in that same direction again. If the single board was empty, the double will be as well.
+3. Diagonal attack
+    - Again, do the shift to get the resulting destination, this time mask for ONLY opposing pieces, as the diagonal move can only attack.
+    - Since we are moving `Direction::E` or `Direction::W` here, file masks are used again for each side.
+
 ## Sliding Pieces
+
+The final 3 piece types, `Bishop`, `Rook`, and `Queen` are slightly more difficult to find moves for, due to the nature of their movement. They are able to move continuously in a direction, but upon hitting any piece they must stop. The process for efficiently generating these moves are as follows:
+
+1. Generate sliding rays for the current square on the board, in whichever directions the piece can attack
+    - This is done by starting from the square and incrementally shifting in the direction, `OR`-ing as we go, until we eventually shift onto the other side of the board.
+    - For example, this would be the ray generated moving `Direction::NE` from `b2`:
+
+<Bitboard squares={[42,35,28,21,14,7]} description='generate_sliding_ray(b2_board, Direction::NE)' />
+
+2. For each direction, find the first blocking piece's square
+
+    - Bitwise `AND` the generated sliding ray with a mask containing all pieces, resulting in a `blocker_board` containing all pieces that would block this ray.
+    - Find the location of the first blocker in the board by using the [bitscan](https://www.chessprogramming.org/BitScan) function on the `blocker_board`.
+        - This is based off of a CPU instruction that can return the number of trailing or leading `1`s or `0`s in the bitboard.
+        - If the direction is positive, scan for the number of leading zeros, if negative find the trailing zeros.
+        - Then, compute the square index based on if we found the leading or trailing zeros.
+
+```rust
+impl Bitboard {
+    pub fn get_first_square(self) -> Square {
+        self.0.leading_zeros() as Square
+    }
+
+    pub fn get_last_square(self) -> Square {
+        (63 - self.0.trailing_zeros()) as Square
+    }
+}
+```
+
+3. Finally if the sliding ray is blocked, clip off the extra squares
+    - We can generate another sliding ray in the same direction, but from the `first_blocker` square.
+    - Then, a bitwise `XOR` the initial ray with a ray from the `first_blocker`'s square.
+    - For example, say there is a blocker in that `b2` `Direction::NE` ray on square `e5`:
+
+<div className='flex flex-wrap items-center justify-center gap-4'>
+    <Bitboard squares={[42,35,28,21,14,7]} description='b2_NE_ray' />
+    `XOR`
+    <Bitboard squares={[21,14,7]} description='blocker_ray' />
+    `=`
+    <Bitboard squares={[42,35,28]} description='clipped_attack' />
+</div>
+
+The entire process is summed up in the following function. To allow this same function to be used for both `Bishop`, `Rook`, and `Queen`, we can just pass a slice of directions to be used, depending on the piece we are generating moves for.
+
+```rust
+fn generate_sliding_moves(pos: Bitboard, dirs: &[isize], board: &Board) -> Bitboard {
+    let mut moves = Bitboard::empty();
+
+    for direction in dirs {
+        // generate sliding ray and find all pieces blocking it
+        let ray = generate_sliding_ray(pos, direction);
+        let blocker_board = ray & board.all_pieces();
+
+        if blocker_board.is_empty() {
+            // if no blockers, add the entire ray to moves
+            moves |= ray
+        } else {
+            // if there is a blocker, find the first one in the ray
+            let first_blocker = if direction > 0 {
+                blocker_board.get_first_square()
+            } else {
+                blocker_board.get_last_square()
+            };
+
+            // then clip the attack from the first blocker and add it to moves
+            let blocker_pos = Bitboard::shifted_by(first_blocker);
+            moves |= ray ^ generate_sliding_ray(blocker_pos, direction);
+        }
+    }
+
+    moves
+}
+```
+
+As usual, we can then mask out all same-colored pieces after generating the moves per sliding piece.
