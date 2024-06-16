@@ -48,6 +48,10 @@ Now for example, this is what a single knight move going `Direction::N + Directi
 
 # Pseudo-Legal Moves
 
+First, let's consider the generation of [pseudo-legal moves](https://www.chessprogramming.org/Pseudo-Legal_Move), which are defined as moves that follow the rules of each piece's movement patterns, but do not consider the safety of the `King`. We begin with generating these, as considering full legality of a move has some extra caveats which will be discussed afterwards.
+
+To generate pseudo-legal moves for a position, the general process is to iterate through each `Piece` of the actively moving `Color`, and generate a bitboard of possible destination squares for this piece to move to. The process for generating moves varies per piece type, so we can roughly split each piece into 3 categories.
+
 ## Jumping Pieces
 
 The simplest pieces to generate moves for are the jumping pieces, which have a constant set of moves that can either be made or are blocked. For both the `King` and `Knight`, we can just take a bitwise `OR` of all resulting bitboards that are shifted from the piece's initial square.
@@ -196,3 +200,84 @@ fn generate_sliding_moves(pos: Bitboard, dirs: &[isize], board: &Board) -> Bitbo
 ```
 
 As usual, we can then mask out all same-colored pieces after generating the moves per sliding piece.
+
+# Legal Moves
+
+Generating legal moves can be done in one of 2 ways:
+
+1. Generate pseudo-legal moves first, then temporarily make each move on the board. If the king can then immediately be taken, the move is not legal. Afterwards, unmake the move and continue generating.
+    - This is a very convenient approach, as we nearly have everything we need, but it is also the much slower option.
+    - There are many illegal moves that that would have to be generated, made, checked, and unmade.
+2. Generate only legal moves during move generation, filtering out illegal moves without making them beforehand.
+    - This approach obviously has more edge cases to worry about, such as checks and pins, but there is no need to make, check, and unmake every move.
+
+Otter decides to generate legal moves in-place as opposed to the slower strategy, so there are some extra masking boards that need to be built before the moves are generated.
+
+-   `king_move_mask`: Masks out all squares currently being attacked
+    -   This bitboard is specific to the `King` so that it cannot move into an attacked square.
+-   `capture_mask`: Mask of all opposing pieces currently putting the king into check
+    -   Allows opposing pieces directly attacking the king to be taken.
+    -   If in a double check, this board is empty as the only valid moves would be king moves.
+-   `block_mask`: Mask of the sliding attack rays of opposing sliding pieces currently putting the king into check
+    -   Allows friendly pieces to block the any sliding attacks on the king.
+    -   If in a double check, this board is empty as the only valid moves would be king moves.
+-   `pin_mask`: Mask of the sliding attack rays of opposing sliding pieces currently pinning a friendly piece onto the king
+    -   Ensures that pieces currently pinned cannot move out from the pin and allow the king to be attacked.
+
+These masks are applied throughout the move generation phase when required, so that all moves generated are valid, legal moves to be made.
+
+# Move Bitboards to Structs
+
+The final step is converting the move bitboards into a struct containing all required data for the `Board` to make the move. This is also done during move generation, and each `Move` stores the following:
+
+```rust
+struct Move {
+    from: Square,   // where the piece is moving from
+    to: Square,     // where to piece is moving to
+    piece: Piece,   // the type of piece moving
+    flag: MoveFlag, // designates the type of move, see below
+}
+
+enum MoveFlag {
+    Quiet,                          // regular move that doesn't have any flags
+    Capture(Piece),                 // opponent piece that was captured
+    Promotion(Piece),               // pawn was promoted into a piece
+    CapturePromotion(Piece, Piece), // opponent piece that was captured and the piece promoted into
+    PawnDoubleMove(Square),         // a pawn double moved, stores the en passant target square
+    EnPassantCapture(Square),       // holds the square of the captured (just en passant-ed) pawn
+    KingCastle,                     // kingside castle
+    QueenCastle,                    // queenside castle
+}
+```
+
+Finally the `Board` must be able to make and unmake `Move`s. Obviously we need to be able to make moves, and unmaking moves is essential later on once we begin searching and evaluating move trees.
+
+Making moves is relatively straightforward, but we need to store a history of previous `GameState`s and `Move`s to be able to unmake moves. Unmaking a move is essentially reverting any changes from the previously made move and restoring the previous game state.
+
+```rust
+struct Board {
+    // ... previous fields ...
+    history: Vec<(Move, GameState)>,
+}
+
+impl Board {
+    pub fn make_move(&mut self, m: Move) {
+        // push this move and current history for unmaking later on
+        self.history.push((m, self.game_state));
+
+        // finish making move and update game state
+    }
+
+    pub fn unmake_move(&mut self) {
+        // pop previous move from history
+        let (m, prev_state) = match self.move_history.pop() {
+            Some(history) => history,
+            None => return, // if no history, return early
+        };
+
+        // finish unmaking move
+
+        self.game_state = prev_state;
+    }
+}
+```
