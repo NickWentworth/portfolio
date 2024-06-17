@@ -6,7 +6,7 @@ export async function BlogNav() {
     const categories = await categoryIndexPosts();
 
     return (
-        <nav className='bg-base-750/90 w-60 shrink-0 flex flex-col p-4 gap-2'>
+        <nav className='w-60 shrink-0 flex flex-col p-4 gap-2 sticky top-0'>
             <BlogNavRootLink />
 
             <hr />

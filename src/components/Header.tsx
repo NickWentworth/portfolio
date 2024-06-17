@@ -3,24 +3,14 @@ import Link from 'next/link';
 
 export function Header() {
     return (
-        <div className='bg-base-800 flex items-center justify-between p-4 sticky top-0'>
+        <div className='bg-base-800 flex items-center gap-12 p-4 sticky top-0'>
             <Link className='font-mono font-bold text-accent-200' href='/'>
                 <h2>NW</h2>
             </Link>
 
-            {/* TODO: not functional yet, unsure if these will stay */}
-            <div className='flex gap-6'>
-                <Link href='#tech'>
-                    <p>Technologies</p>
-                </Link>
-
-                <Link href='#projects'>
-                    <p>Projects</p>
-                </Link>
-
-                <Link href='#experience'>
-                    <p>Experience</p>
-                </Link>
+            <div className='flex gap-6 mr-auto'>
+                <Link href='/'>Home</Link>
+                <Link href='/blog'>Blog</Link>
             </div>
 
             <div className='flex gap-4'>
