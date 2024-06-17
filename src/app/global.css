@@ -66,4 +66,17 @@ body {
     li {
         @apply py-0.5;
     }
+
+    table {
+        @apply rounded-md overflow-hidden;
+    }
+    th {
+        @apply px-6 py-3 text-left;
+        @apply bg-base-800;
+    }
+    td {
+        @apply px-6 py-3 text-left;
+        @apply bg-base-750;
+        @apply border-t border-base-50/10;
+    }
 }

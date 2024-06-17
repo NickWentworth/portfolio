@@ -1,4 +1,5 @@
 import { Bitboard } from './Bitboard';
+import { PieceSquareTable } from './PieceSquareTable';
 import { MDXRemoteProps } from 'next-mdx-remote/rsc';
 
 type MDXComponents = MDXRemoteProps['components'];
@@ -23,4 +24,5 @@ export const blogComponents = {
 
     // custom components
     Bitboard,
+    PieceSquareTable,
 } satisfies MDXComponents;
