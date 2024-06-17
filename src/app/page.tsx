@@ -5,22 +5,22 @@ import Link from 'next/link';
 export default async () => (
     <div className='flex flex-col items-center'>
         {/* intro section */}
-        <div className='flex items-center gap-20 py-40'>
-            <div className='flex flex-col gap-4'>
+        <div className='flex flex-col items-center gap-x-20 gap-y-2 py-40 md:flex-row-reverse'>
+            <img className='size-60 rounded-full' src='/me.jpg' />
+
+            <div className='flex flex-col items-center gap-4 md:items-stretch'>
                 <h1 className='font-bold'>Hey there, I'm Nick</h1>
                 <h4>
                     I am a <Accent>software developer</Accent>
                 </h4>
             </div>
-
-            <img className='size-60 rounded-full' src='/me.jpg' />
         </div>
 
         {/* main content */}
         <div className='bg-base-700 self-stretch'>
-            <div className='max-w-[1200px] m-auto px-8'>
+            <div className='max-w-[1200px] m-auto px-4 md:px-8'>
                 {/* technologies */}
-                <div className='flex flex-col p-8 gap-4'>
+                <div className='flex flex-col gap-4 py-8 md:px-8'>
                     <Heading title='Technologies' />
 
                     <p>
@@ -37,7 +37,7 @@ export default async () => (
                         design to deployment.
                     </p>
 
-                    <div className='grid grid-cols-2 gap-2'>
+                    <div className='grid gap-2 md:grid-cols-2'>
                         <Card>
                             <div className='flex flex-col gap-2'>
                                 <h4>Fullstack Development</h4>
@@ -79,10 +79,10 @@ export default async () => (
                 <hr />
 
                 {/* projects */}
-                <div className='flex flex-col p-8 gap-4'>
+                <div className='flex flex-col gap-4 py-8 md:px-8'>
                     <Heading title='Projects' />
 
-                    <div className='grid grid-cols-2 gap-2'>
+                    <div className='grid gap-2 md:grid-cols-2'>
                         <ProjectCard
                             name='Rememo'
                             image='rememo.png'
@@ -119,7 +119,7 @@ export default async () => (
                 <hr />
 
                 {/* experience */}
-                <div className='flex flex-col p-8 gap-4'>
+                <div className='flex flex-col gap-4 py-8 md:px-8'>
                     <Heading title='Experience' />
 
                     <p>
