@@ -1,21 +1,20 @@
-import { BlogNavRootLink } from './BlogNavRootLink';
-import { BlogNavCategory } from './BlogNavCategory';
+import { type BlogNavSection } from '.';
 import { categoryIndexPosts, postsByCategory } from '@/lib/posts';
+import { ResponsiveBlogNav } from './ResponsiveBlogNav';
 
 export async function BlogNav() {
     const categories = await categoryIndexPosts();
 
-    return (
-        <nav className='w-60 shrink-0 flex flex-col p-4 gap-2 sticky top-0'>
-            <BlogNavRootLink />
+    const sections = await Promise.all(
+        categories.map(async (category) => {
+            const posts = await postsByCategory(category.category);
 
-            <hr />
-
-            {categories.map(async (category) => {
-                const posts = await postsByCategory(category.category);
-
-                return <BlogNavCategory category={category} posts={posts} />;
-            })}
-        </nav>
+            return {
+                index: category,
+                posts,
+            } satisfies BlogNavSection;
+        })
     );
+
+    return <ResponsiveBlogNav sections={sections} />;
 }

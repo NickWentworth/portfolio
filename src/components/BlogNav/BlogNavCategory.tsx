@@ -1,12 +1,11 @@
 'use client';
 
+import { type BlogNavSection } from '.';
 import Link from 'next/link';
-import { type PostMetadata } from '@/lib/posts';
 import { usePathname } from 'next/navigation';
 
 type BlogNavCategoryProps = {
-    category: PostMetadata;
-    posts: PostMetadata[];
+    section: BlogNavSection;
 };
 
 export function BlogNavCategory(props: BlogNavCategoryProps) {
@@ -31,14 +30,14 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
     return (
         <div className='flex flex-col gap-2'>
             <Link
-                href={props.category.href}
-                className={highlight(props.category.href)}
+                href={props.section.index.href}
+                className={highlight(props.section.index.href)}
             >
-                <h4>{props.category.frontmatter.title}</h4>
+                <h4>{props.section.index.frontmatter.title}</h4>
             </Link>
 
             <div className='flex flex-col gap-2 border-l border-l-white/10'>
-                {props.posts.map((post) => (
+                {props.section.posts.map((post) => (
                     <Link
                         key={post.href}
                         href={post.href}
