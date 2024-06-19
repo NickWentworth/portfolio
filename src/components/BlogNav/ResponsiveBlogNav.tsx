@@ -18,7 +18,7 @@ export function ResponsiveBlogNav(props: ResponsiveBlogNavProps) {
     const isAtRootBlogLink = '/blog' === route;
 
     return (
-        <nav className='bg-base-750 shrink-0 md:w-60'>
+        <nav className='bg-base-750 shrink-0 sticky top-[--header-height] md:w-60'>
             <div className='flex items-center justify-between p-4'>
                 <Link
                     href='/blog'

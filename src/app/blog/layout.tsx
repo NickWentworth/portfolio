@@ -2,11 +2,11 @@ import { BlogNav } from '@/components/BlogNav';
 
 export default (props: React.PropsWithChildren) => {
     return (
-        <div className='h-full bg-base-750/80'>
-            <div className='h-full flex flex-col max-w-[1400px] m-auto md:flex-row'>
+        <div className='bg-base-750/80'>
+            <div className='max-w-[1400px] m-auto md:flex md:items-start'>
                 <BlogNav />
 
-                <div className='bg-base-700 grow p-4 overflow-x-hidden'>
+                <div className='bg-base-700 p-4 overflow-x-hidden md:grow'>
                     {props.children}
                 </div>
             </div>

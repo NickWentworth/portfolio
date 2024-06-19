@@ -81,3 +81,10 @@ body {
         @apply border-t border-base-50/10;
     }
 }
+
+@layer components {
+    :root {
+        /* height is used both for header and sticky top-offset for blog navigation */
+        --header-height: 4rem;
+    }
+}

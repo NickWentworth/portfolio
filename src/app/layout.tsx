@@ -11,11 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout(props: React.PropsWithChildren) {
     return (
         <html lang='en'>
-            <body className='w-dvw h-dvh flex flex-col'>
+            <body>
                 <Header />
-
-                <div className='grow overflow-auto'>{props.children}</div>
-
+                {props.children}
                 <DotsBackground />
             </body>
         </html>
