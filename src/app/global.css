@@ -44,8 +44,8 @@ body {
     }
 
     button {
-        @apply bg-accent-200 hover:bg-accent-300 active:bg-accent-400 text-base-800 font-semibold;
-        @apply px-4 py-2 gap-1 rounded-md;
+        /* @apply bg-accent-200 hover:bg-accent-300 active:bg-accent-400 text-base-800 font-semibold;
+        @apply px-4 py-2 gap-1 rounded-md; */
         @apply inline-block;
         @apply transition-all duration-75 ease-out;
     }
@@ -86,5 +86,15 @@ body {
     :root {
         /* height is used both for header and sticky top-offset for blog navigation */
         --header-height: 4rem;
+    }
+
+    .btn-fill {
+        @apply bg-accent-200 hover:bg-accent-300 active:bg-accent-400 text-base-800 font-semibold;
+        @apply px-4 py-2 gap-1 rounded-md;
+    }
+
+    .btn-ghost {
+        @apply bg-transparent hover:bg-white/10 active:bg-white/20;
+        @apply p-1 rounded-md;
     }
 }

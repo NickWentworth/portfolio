@@ -168,7 +168,7 @@ export default async () => (
                         href='/nick-wentworth-resume.pdf'
                         target='_blank'
                     >
-                        <button>
+                        <button className='btn-fill'>
                             <div className='flex gap-2 items-center'>
                                 <p>View Full Resume</p>
 

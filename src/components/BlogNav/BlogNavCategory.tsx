@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 type BlogNavCategoryProps = {
     section: BlogNavSection;
+    onItemClick?: () => void;
 };
 
 export function BlogNavCategory(props: BlogNavCategoryProps) {
@@ -32,8 +33,9 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
             <Link
                 href={props.section.index.href}
                 className={highlight(props.section.index.href)}
+                onClick={props.onItemClick}
             >
-                <h4>{props.section.index.frontmatter.title}</h4>
+                <h5>{props.section.index.frontmatter.title}</h5>
             </Link>
 
             <div className='flex flex-col gap-2 border-l border-l-white/10'>
@@ -44,6 +46,7 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
                         className={`px-2 -ml-px border-l ${highlight(
                             post.href
                         )} ${border(post.href)}`}
+                        onClick={props.onItemClick}
                     >
                         {post.frontmatter.title}
                     </Link>
