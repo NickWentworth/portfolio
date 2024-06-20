@@ -1,4 +1,4 @@
-import { Icon } from '@/components/common';
+import { AwareLink, Icon } from '@/components/common';
 import Link from 'next/link';
 
 export function Header() {
@@ -9,8 +9,11 @@ export function Header() {
             </Link>
 
             <div className='flex gap-6 mr-auto'>
-                <Link href='/'>Home</Link>
-                <Link href='/blog'>Blog</Link>
+                <AwareLink href='/' exact>
+                    Home
+                </AwareLink>
+
+                <AwareLink href='/blog'>Blog</AwareLink>
             </div>
 
             <div className='flex gap-4'>

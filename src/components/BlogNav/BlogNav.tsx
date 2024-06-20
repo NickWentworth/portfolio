@@ -2,10 +2,8 @@
 
 import { type BlogNavSection } from '.';
 import { BlogNavCategory } from './BlogNavCategory';
-import { Icon } from '../common';
-import Link from 'next/link';
+import { AwareLink, Icon } from '@/components/common';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 
 type BlogNavProps = {
     sections: BlogNavSection[];
@@ -14,21 +12,12 @@ type BlogNavProps = {
 export function BlogNav(props: BlogNavProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const route = usePathname();
-    const isAtRootBlogLink = '/blog' === route;
-
     return (
         <nav className='bg-base-750 shrink-0 sticky top-[--header-height] md:w-60'>
             <div className='flex items-center justify-between pl-4 pr-3 py-2'>
-                <Link
-                    href='/blog'
-                    className={
-                        isAtRootBlogLink ? 'text-accent-200 font-semibold' : ''
-                    }
-                    onClick={() => setIsOpen(false)}
-                >
+                <AwareLink href='/blog' onClick={() => setIsOpen(false)} exact>
                     <h5>Posts</h5>
-                </Link>
+                </AwareLink>
 
                 <button className='btn-ghost'>
                     <Icon
