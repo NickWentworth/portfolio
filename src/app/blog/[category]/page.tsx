@@ -2,6 +2,7 @@ import { BlogPostTitle } from '@/components/BlogPostTitle';
 import { Card } from '@/components/common';
 import Link from 'next/link';
 import { categoryIndexPosts, compilePost, postsByCategory } from '@/lib/posts';
+import { notFound } from 'next/navigation';
 
 type PageProps = {
     params: {
@@ -14,7 +15,7 @@ export default async (props: PageProps) => {
     const posts = await postsByCategory(props.params.category);
 
     if (compiled === undefined) {
-        return <p>Error: file not found</p>;
+        notFound();
     }
 
     return (

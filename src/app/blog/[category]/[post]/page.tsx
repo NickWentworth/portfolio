@@ -7,6 +7,7 @@ import {
     getNeighboringPosts,
     postsByCategory,
 } from '@/lib/posts';
+import { notFound } from 'next/navigation';
 
 type PageProps = {
     params: {
@@ -22,7 +23,7 @@ export default async (props: PageProps) => {
     const [prevPost, nextPost] = await getNeighboringPosts(category, post);
 
     if (compiled === undefined) {
-        return <p>Error: file not found</p>;
+        notFound();
     }
 
     return (
