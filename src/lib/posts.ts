@@ -22,6 +22,7 @@ export type PostFrontmatter = {
     title: string;
     date?: string;
     summary?: string;
+    thumbnail?: string;
 };
 
 /**

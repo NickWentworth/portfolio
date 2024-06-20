@@ -26,6 +26,8 @@ export default async (props: PageProps) => {
 
             {compiled.content}
 
+            <hr />
+
             <div className='grid grid-cols-2 gap-4'>
                 {posts.map((post) => (
                     <Link

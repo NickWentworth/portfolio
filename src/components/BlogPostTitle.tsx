@@ -10,6 +10,13 @@ export function BlogPostTitle(props: BlogPostTitleProps) {
         <div className='flex flex-col gap-2 py-4'>
             <h1>{props.frontmatter.title}</h1>
 
+            {props.frontmatter.thumbnail && (
+                <img
+                    className='rounded-md mt-2'
+                    src={props.frontmatter.thumbnail}
+                />
+            )}
+
             {props.frontmatter.date && (
                 <p className='text-white/70'>
                     {formatPostDate(props.frontmatter.date)}
