@@ -1,5 +1,7 @@
 ---
 title: 'Board Representation'
+date: '2024-06-10'
+summary: 'Representing the board state using bitboards and FEN notation'
 ---
 
 The first step in writing a chess engine is deciding how to represent the board state. This choice will heavilty affect the process and efficiency of move generation, an integral part of the chess engine.

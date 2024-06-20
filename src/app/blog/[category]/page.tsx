@@ -21,13 +21,24 @@ export default async (props: PageProps) => {
         <div className='flex flex-col gap-4'>
             <BlogPostTitle frontmatter={compiled.frontmatter} />
 
+            <hr />
+
             {compiled.content}
 
             <div className='grid grid-cols-2 gap-4'>
                 {posts.map((post) => (
-                    <Link key={post.href} href={post.href}>
+                    <Link
+                        key={post.href}
+                        href={post.href}
+                        className='group *:w-full *:h-full'
+                    >
                         <Card>
-                            <h5>{post.frontmatter.title}</h5>
+                            <h5 className='text-accent-200 group-hover:underline'>
+                                {post.frontmatter.title}
+                            </h5>
+                            <p className='text-white/90 group-hover:text-white/90'>
+                                {post.frontmatter.summary}
+                            </p>
                         </Card>
                     </Link>
                 ))}

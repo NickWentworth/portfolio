@@ -16,15 +16,10 @@ type PageProps = {
 };
 
 export default async (props: PageProps) => {
-    const compiled = await compilePost(
-        props.params.category,
-        props.params.post
-    );
+    const { category, post } = props.params;
 
-    const [prevPost, nextPost] = await getNeighboringPosts(
-        props.params.category,
-        props.params.post
-    );
+    const compiled = await compilePost(category, post);
+    const [prevPost, nextPost] = await getNeighboringPosts(category, post);
 
     if (compiled === undefined) {
         return <p>Error: file not found</p>;
@@ -33,6 +28,8 @@ export default async (props: PageProps) => {
     return (
         <div className='flex flex-col gap-4'>
             <BlogPostTitle frontmatter={compiled.frontmatter} />
+
+            <hr />
 
             {compiled.content}
 

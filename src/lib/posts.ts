@@ -20,6 +20,8 @@ export type PostMetadata = {
 
 export type PostFrontmatter = {
     title: string;
+    date?: string;
+    summary?: string;
 };
 
 /**

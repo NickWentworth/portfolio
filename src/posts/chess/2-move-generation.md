@@ -1,5 +1,7 @@
 ---
 title: 'Move Generation'
+date: '2024-06-14'
+summary: 'Generating pseudo-legal and legal moves, along with making/unmaking them'
 ---
 
 # Working With Bitboards

@@ -1,5 +1,7 @@
 ---
 title: 'Evaluation'
+date: '2024-06-17'
+summary: 'Determining the strength of a position with material value, piece-square tables, and more'
 ---
 
 Before we get to searching through trees of different moves, we have to be able to evaluate how good or bad a position is. Otter's evaluation approach is not overly advanced, and only really considers a few different metrics to determine the strength of a position.
