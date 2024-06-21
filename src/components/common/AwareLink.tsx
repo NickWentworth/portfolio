@@ -12,6 +12,8 @@ type AwareLinkProps = React.PropsWithChildren<
         className?: string;
         /** Class name that is only set for an active link */
         activeClassName?: string;
+        /** Class name that is only set for an inactive link */
+        inactiveClassName?: string;
     }
 >;
 
@@ -32,7 +34,8 @@ export function AwareLink(props: AwareLinkProps) {
     const cn = buildClass(
         className,
         isActive && 'text-accent-200 font-semibold',
-        isActive && props.activeClassName
+        isActive && props.activeClassName,
+        !isActive && props.inactiveClassName
     );
 
     return <Link {...linkProps} className={cn} />;

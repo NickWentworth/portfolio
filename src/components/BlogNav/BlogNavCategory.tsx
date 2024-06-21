@@ -25,8 +25,9 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
                         key={post.href}
                         href={post.href}
                         onClick={props.onItemClick}
-                        className='px-2 -ml-px border-l border-transparent'
+                        className='px-2 -ml-px border-l'
                         activeClassName='border-accent-200'
+                        inactiveClassName='border-transparent'
                     >
                         {post.frontmatter.title}
                     </AwareLink>
