@@ -5,7 +5,7 @@ export default () => {
         <div className='flex flex-col items-center gap-4 py-8'>
             <h3>404: Blog post not found</h3>
 
-            <p className='text-white/60'>
+            <p className='text-base-200'>
                 The post you are looking for doesn't exist or it might have been
                 removed
             </p>

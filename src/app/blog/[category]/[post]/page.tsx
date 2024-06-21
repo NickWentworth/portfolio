@@ -1,4 +1,3 @@
-import { BlogPostTitle } from '@/components/BlogPostTitle';
 import { Icon } from '@/components/common';
 import Link from 'next/link';
 import {
@@ -7,6 +6,7 @@ import {
     getNeighboringPosts,
     postsByCategory,
 } from '@/lib/posts';
+import { formatPostDate } from '@/lib/format';
 import { notFound } from 'next/navigation';
 
 type PageProps = {
@@ -28,7 +28,15 @@ export default async (props: PageProps) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <BlogPostTitle frontmatter={compiled.frontmatter} />
+            <div className='flex flex-col gap-1 py-4'>
+                <h1>{compiled.frontmatter.title}</h1>
+
+                <p className='font-mono text-base-200'>
+                    {formatPostDate(compiled.frontmatter.date!)}
+                </p>
+
+                <p>{compiled.frontmatter.summary}</p>
+            </div>
 
             <hr />
 

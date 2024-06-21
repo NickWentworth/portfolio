@@ -41,7 +41,7 @@ export default async () => {
                                     {category.frontmatter.title}
                                 </h4>
 
-                                <p className='text-white/90 group-hover:text-white/90'>
+                                <p className='ignore-hover'>
                                     {category.frontmatter.summary}
                                 </p>
                             </div>

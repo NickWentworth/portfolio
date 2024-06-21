@@ -9,7 +9,7 @@ export default async () => (
             <img className='size-60 rounded-full' src='/me.jpg' />
 
             <div className='flex flex-col items-center gap-4 md:items-stretch'>
-                <h1 className='font-bold'>Hey there, I'm Nick</h1>
+                <h1>Hey there, I'm Nick</h1>
                 <h4>
                     I am a <Accent>software developer</Accent>
                 </h4>

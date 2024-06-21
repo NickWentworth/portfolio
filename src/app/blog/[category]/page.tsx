@@ -1,4 +1,3 @@
-import { BlogPostTitle } from '@/components/BlogPostTitle';
 import { Card } from '@/components/common';
 import Link from 'next/link';
 import { categoryIndexPosts, compilePost, postsByCategory } from '@/lib/posts';
@@ -20,7 +19,16 @@ export default async (props: PageProps) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <BlogPostTitle frontmatter={compiled.frontmatter} />
+            <div className='flex flex-col pt-4 gap-4'>
+                <h1>{compiled.frontmatter.title}</h1>
+
+                <img
+                    className='rounded-md'
+                    src={compiled.frontmatter.thumbnail}
+                />
+
+                <p>{compiled.frontmatter.summary}</p>
+            </div>
 
             <hr />
 
@@ -39,7 +47,7 @@ export default async (props: PageProps) => {
                             <h5 className='text-accent-200 group-hover:underline'>
                                 {post.frontmatter.title}
                             </h5>
-                            <p className='text-white/90 group-hover:text-white/90'>
+                            <p className='ignore-hover'>
                                 {post.frontmatter.summary}
                             </p>
                         </Card>

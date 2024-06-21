@@ -16,7 +16,7 @@ body {
     }
 
     h1 {
-        @apply text-4xl;
+        @apply text-4xl font-semibold;
     }
     h2 {
         @apply text-3xl;
@@ -44,8 +44,6 @@ body {
     }
 
     button {
-        /* @apply bg-accent-200 hover:bg-accent-300 active:bg-accent-400 text-base-800 font-semibold;
-        @apply px-4 py-2 gap-1 rounded-md; */
         @apply inline-block;
         @apply transition-all duration-75 ease-out;
     }
@@ -86,6 +84,11 @@ body {
     :root {
         /* height is used both for header and sticky top-offset for blog navigation */
         --header-height: 4rem;
+    }
+
+    .ignore-hover {
+        /* completely ignore any text hover color changes */
+        @apply text-white/90 hover:text-white/90 group-hover:text-white/90;
     }
 
     .btn-fill {
