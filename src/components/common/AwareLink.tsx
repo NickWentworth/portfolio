@@ -21,7 +21,13 @@ type AwareLinkProps = React.PropsWithChildren<
  * Next.js `Link` with ability to style itself based on if the route is at the given `href`
  */
 export function AwareLink(props: AwareLinkProps) {
-    const { exact, className, activeClassName, ...linkProps } = props;
+    const {
+        exact,
+        className,
+        activeClassName,
+        inactiveClassName,
+        ...linkProps
+    } = props;
 
     const route = usePathname();
 
@@ -34,8 +40,8 @@ export function AwareLink(props: AwareLinkProps) {
     const cn = buildClass(
         className,
         isActive && 'text-accent-200 font-semibold',
-        isActive && props.activeClassName,
-        !isActive && props.inactiveClassName
+        isActive && activeClassName,
+        !isActive && inactiveClassName
     );
 
     return <Link {...linkProps} className={cn} />;
