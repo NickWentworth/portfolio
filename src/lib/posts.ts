@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { serialize } from 'next-mdx-remote/serialize';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import rehypeHighlight from 'rehype-highlight';
 
 const BLOG_HREF = '/blog';
 const POSTS_DIR = join(process.cwd(), 'src', 'posts');
@@ -125,7 +126,11 @@ export async function compilePost(category: string, post?: string) {
 
     return await compileMDX<PostFrontmatter>({
         source: text,
-        options: { parseFrontmatter: true },
+        options: {
+            parseFrontmatter: true,
+            // TODO: look into syntax highlighting for inline code
+            mdxOptions: { rehypePlugins: [rehypeHighlight] },
+        },
         components: blogComponents,
     });
 }

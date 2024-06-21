@@ -14,7 +14,7 @@ export default async (props: React.PropsWithChildren) => {
 
     return (
         <div className='bg-base-750/80'>
-            <div className='max-w-[1400px] m-auto md:flex md:items-start'>
+            <div className='max-w-[1200px] m-auto md:flex md:items-start'>
                 <BlogNav sections={sections} />
 
                 <div className='bg-base-700 p-4 overflow-x-hidden md:grow'>

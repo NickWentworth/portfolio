@@ -49,9 +49,14 @@ body {
     }
 
     code {
-        @apply bg-base-800 px-1.5 py-px rounded-md;
+        @apply bg-base-800 text-white/80;
+        @apply text-[15px] px-1.5 py-px rounded-md;
+
+        /* remove ligatures that connect 2 symbols together, ex: "->" into an actual arrow */
+        font-variant-ligatures: none;
     }
     pre > code {
+        @apply text-sm;
         @apply block p-4 rounded-lg;
         @apply overflow-x-auto;
     }
@@ -100,4 +105,73 @@ body {
         @apply bg-transparent hover:bg-white/10 active:bg-white/20;
         @apply p-1 rounded-md;
     }
+}
+
+/*
+    style: atom-one-dark
+    source: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css
+
+    hljs styling, minus the base .hljs for <code>, those are set earlier in "code" and "pre > code"
+
+    setup here instead of @import because only the .hljs-<type> classes are needed, not base classes 
+*/
+
+.hljs-comment,
+.hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+}
+.hljs-doctag,
+.hljs-formula,
+.hljs-keyword {
+    color: #c678dd;
+}
+.hljs-deletion,
+.hljs-name,
+.hljs-section,
+.hljs-selector-tag,
+.hljs-subst {
+    color: #e06c75;
+}
+.hljs-literal {
+    color: #56b6c2;
+}
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-string {
+    color: #98c379;
+}
+.hljs-attr,
+.hljs-number,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-pseudo,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable {
+    color: #d19a66;
+}
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-symbol,
+.hljs-title {
+    color: #61aeee;
+}
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+    color: #e6c07b;
+}
+.hljs-emphasis {
+    font-style: italic;
+}
+.hljs-strong {
+    font-weight: 700;
+}
+.hljs-link {
+    text-decoration: underline;
 }
