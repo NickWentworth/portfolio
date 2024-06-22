@@ -2,18 +2,13 @@ import { Card } from '@/components/common';
 import Link from 'next/link';
 import { categoryIndexPosts, compilePost, postsByCategory } from '@/lib/posts';
 import { notFound } from 'next/navigation';
-import { type Metadata } from 'next';
+import { GetStaticPropsResult, type Metadata } from 'next';
 
 type PageProps = {
     params: {
         category: string;
     };
 };
-
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    const compiled = await compilePost(props.params.category);
-    return { title: compiled?.frontmatter.title };
-}
 
 export default async (props: PageProps) => {
     const compiled = await compilePost(props.params.category);
@@ -64,7 +59,13 @@ export default async (props: PageProps) => {
     );
 };
 
-export async function generateStaticParams() {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const compiled = await compilePost(props.params.category);
+
+    return { title: compiled?.frontmatter.title };
+}
+
+export async function generateStaticParams(): Promise<PageProps['params'][]> {
     const categories = await categoryIndexPosts();
 
     return categories.map((category) => ({

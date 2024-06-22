@@ -17,12 +17,6 @@ type PageProps = {
     };
 };
 
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    const { category, post } = props.params;
-    const compiled = await compilePost(category, post);
-    return { title: compiled?.frontmatter.title };
-}
-
 export default async (props: PageProps) => {
     const { category, post } = props.params;
 
@@ -78,17 +72,26 @@ export default async (props: PageProps) => {
     );
 };
 
-export async function generateStaticParams() {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const compiled = await compilePost(
+        props.params.category,
+        props.params.post
+    );
+
+    return { title: compiled?.frontmatter.title };
+}
+
+export async function generateStaticParams(): Promise<PageProps['params'][]> {
     const categories = await categoryIndexPosts();
 
-    const params = categories.flatMap(async (category) => {
-        const posts = await postsByCategory(category.category);
+    const posts = await Promise.all(
+        categories.map(
+            async (category) => await postsByCategory(category.category)
+        )
+    );
 
-        return posts.map((post) => ({
-            category: post.category,
-            post: post.post,
-        }));
-    });
-
-    return await Promise.all(params);
+    return posts.flat().map((post) => ({
+        category: post.category,
+        post: post.post,
+    }));
 }
