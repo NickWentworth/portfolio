@@ -1,5 +1,6 @@
-# npm dependencies
-/node_modules
+# dependencies
+node_modules/
 
-# vite generated files
-/dist
+# next.js
+.next/
+next-env.d.ts

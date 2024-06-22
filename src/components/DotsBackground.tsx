@@ -1,16 +1,14 @@
-import { dots } from '../lib/dots';
-import { useEffect, useRef } from 'react';
-import { Box, useToken } from '@chakra-ui/react';
+'use client';
 
-export default function DotsBackground() {
+import { dots } from '@/lib/dots';
+import { useEffect, useRef } from 'react';
+
+export function DotsBackground() {
     const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
 
+    // TODO: reference tailwind theme base (750, 50, 300) respectively
     // use theme colors on dots canvas
-    const [bg, dot, line] = useToken('colors', [
-        'theme.750', // background
-        'theme.50', // dot
-        'theme.300', // connecting line
-    ]);
+    const [bg, dot, line] = ['#253242', '#eaf3fe', '#8fa4bc'];
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -28,8 +26,8 @@ export default function DotsBackground() {
     }, []);
 
     return (
-        <Box h='100dvh' w='100dvw' pos='fixed' top='0' zIndex='-1'>
+        <div className='w-full h-full fixed top-0 -z-10'>
             <canvas ref={canvasRef} />
-        </Box>
+        </div>
     );
 }

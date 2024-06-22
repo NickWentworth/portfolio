@@ -1,70 +1,45 @@
-import { ExternalLink, GitHub } from '../icons';
-import {
-    Card,
-    CardBody,
-    Divider,
-    Image,
-    Link,
-    Spacer,
-    Stack,
-    Tag,
-    Text,
-    Wrap,
-} from '@chakra-ui/react';
+import { Card, Icon, TagList } from '@/components/common';
+import Link from 'next/link';
 
-type Project = {
+type ProjectCardProps = {
     name: string;
     image: string;
     description: string;
-    technologies: string[];
+    tags: string[];
 
-    /** Optional main link to view the project in action */
     link?: string;
-    /** Optional source link to view the project's source code */
     source?: string;
 };
 
-type ProjectCardProps = {
-    project: Project;
-};
-
-export default function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard(props: ProjectCardProps) {
     return (
         <Card>
-            <CardBody>
-                <Stack h='100%'>
-                    <ConditionalLink href={project.link}>
-                        <Stack>
-                            <Image src={project.image} borderRadius='0.25rem' />
+            <div className='flex flex-col h-full gap-2'>
+                <ConditionalLink href={props.link}>
+                    <div className='flex flex-col gap-2'>
+                        <img className='rounded-sm' src={props.image} />
 
-                            <Text fontSize='xl'>
-                                {project.name.concat(' ')}
-                                {project.link && <ExternalLink />}
-                            </Text>
-                        </Stack>
-                    </ConditionalLink>
+                        <h4 className='flex items-center gap-2'>
+                            {props.name}
+                            {props.link && <Icon icon='link' size='22' />}
+                        </h4>
+                    </div>
+                </ConditionalLink>
 
-                    <Divider />
+                <hr />
 
-                    <Text>{project.description}</Text>
+                <p>{props.description}</p>
 
-                    <Wrap>
-                        {project.technologies.map((tech) => (
-                            <Tag key={tech} borderRadius='full'>
-                                {tech}
-                            </Tag>
-                        ))}
-                    </Wrap>
+                <TagList tags={props.tags} />
 
-                    <Spacer />
-
-                    {project.source && (
-                        <Link href={project.source} alignSelf='end' isExternal>
-                            <GitHub fontSize='2xl' />
+                {props.source && (
+                    <div className='flex-grow flex flex-col-reverse items-end mt-2'>
+                        <Link href={props.source} target='_blank'>
+                            <Icon icon='github' />
                         </Link>
-                    )}
-                </Stack>
-            </CardBody>
+                    </div>
+                )}
+            </div>
         </Card>
     );
 }
@@ -73,10 +48,9 @@ type ConditionalLinkProps = React.PropsWithChildren<{
     href?: string;
 }>;
 
-// conditionally renders a link (if given) around children elements
 function ConditionalLink(props: ConditionalLinkProps) {
     return props.href ? (
-        <Link href={props.href} isExternal>
+        <Link href={props.href} target='_blank'>
             {props.children}
         </Link>
     ) : (

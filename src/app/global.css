@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+html,
+body {
+    color-scheme: dark;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-sans bg-base-750 text-white/90;
+    }
+
+    h1 {
+        @apply text-4xl font-semibold;
+    }
+    h2 {
+        @apply text-3xl;
+    }
+    h3 {
+        @apply text-2xl;
+    }
+    h4 {
+        @apply text-xl;
+    }
+    h5 {
+        @apply text-lg;
+    }
+    p {
+        @apply text-base;
+    }
+
+    a {
+        @apply hover:text-accent-200 hover:underline;
+        @apply transition-all duration-75 ease-out;
+    }
+
+    hr {
+        @apply border-base-50/10;
+    }
+
+    button {
+        @apply inline-block;
+        @apply transition-all duration-75 ease-out;
+    }
+
+    code {
+        @apply bg-base-800 text-white/80;
+        @apply text-[15px] px-1.5 py-px rounded-md;
+
+        /* remove ligatures that connect 2 symbols together, ex: "->" into an actual arrow */
+        font-variant-ligatures: none;
+    }
+    pre > code {
+        @apply text-sm;
+        @apply block p-4 rounded-lg;
+        @apply overflow-x-auto;
+    }
+
+    ol {
+        @apply list-decimal pl-6;
+    }
+    ul {
+        @apply list-disc pl-6;
+    }
+    li {
+        @apply py-0.5;
+    }
+
+    table {
+        @apply rounded-md overflow-hidden;
+    }
+    th {
+        @apply px-6 py-3 text-left;
+        @apply bg-base-800;
+    }
+    td {
+        @apply px-6 py-3 text-left;
+        @apply bg-base-750;
+        @apply border-t border-base-50/10;
+    }
+}
+
+@layer components {
+    :root {
+        /* height is used both for header and sticky top-offset for blog navigation */
+        --header-height: 4rem;
+    }
+
+    .ignore-hover {
+        /* completely ignore any text hover color changes */
+        @apply text-white/90 hover:text-white/90 group-hover:text-white/90;
+    }
+
+    .btn-fill {
+        @apply bg-accent-200 hover:bg-accent-300 active:bg-accent-400 text-base-800 font-semibold;
+        @apply px-4 py-2 gap-1 rounded-md;
+    }
+
+    .btn-ghost {
+        @apply bg-transparent hover:bg-white/10 active:bg-white/20;
+        @apply p-1 rounded-md;
+    }
+}
+
+/*
+    style: atom-one-dark
+    source: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css
+
+    hljs styling, minus the base .hljs for <code>, those are set earlier in "code" and "pre > code"
+
+    setup here instead of @import because only the .hljs-<type> classes are needed, not base classes 
+*/
+
+.hljs-comment,
+.hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+}
+.hljs-doctag,
+.hljs-formula,
+.hljs-keyword {
+    color: #c678dd;
+}
+.hljs-deletion,
+.hljs-name,
+.hljs-section,
+.hljs-selector-tag,
+.hljs-subst {
+    color: #e06c75;
+}
+.hljs-literal {
+    color: #56b6c2;
+}
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-string {
+    color: #98c379;
+}
+.hljs-attr,
+.hljs-number,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-pseudo,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable {
+    color: #d19a66;
+}
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-symbol,
+.hljs-title {
+    color: #61aeee;
+}
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+    color: #e6c07b;
+}
+.hljs-emphasis {
+    font-style: italic;
+}
+.hljs-strong {
+    font-weight: 700;
+}
+.hljs-link {
+    text-decoration: underline;
+}
