@@ -8,6 +8,7 @@ import {
 } from '@/lib/posts';
 import { formatPostDate } from '@/lib/format';
 import { notFound } from 'next/navigation';
+import { type Metadata } from 'next';
 
 type PageProps = {
     params: {
@@ -15,6 +16,12 @@ type PageProps = {
         post: string;
     };
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { category, post } = props.params;
+    const compiled = await compilePost(category, post);
+    return { title: compiled?.frontmatter.title };
+}
 
 export default async (props: PageProps) => {
     const { category, post } = props.params;

@@ -4,7 +4,10 @@ import { type Metadata } from 'next';
 import './global.css';
 
 export const metadata: Metadata = {
-    title: 'Nick Wentworth',
+    title: {
+        default: 'Nick Wentworth',
+        template: '%s | Nick Wentworth',
+    },
     icons: '/favicon.ico',
 };
 

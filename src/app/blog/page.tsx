@@ -1,6 +1,11 @@
 import { Card } from '@/components/common';
 import { categoryIndexPosts } from '@/lib/posts';
 import Link from 'next/link';
+import { type Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Blog',
+};
 
 export default async () => {
     const categories = await categoryIndexPosts();
