@@ -30,6 +30,16 @@ Logically, we can think of what is going on as follows, say `White` is to move:
 -   ...continue on until we reach the max depth.
 -   After we have searched deep enough, the strength of a position is determined by running `evaluate()`.
 
+Graphically, at a `depth` of 2, the tree can be represented as:
+
+<div className='bg-base-800 p-4 rounded-md'>
+    <img src='/search-tree-dfs.png' alt='DFS search tree' />
+</div>
+
+Moves are made to a max depth, where they are then evaluated. At each level, a move is chosen based on what is worst for the opponent, then negated because a negative evaluation for the opponent is positive for us, and vice-versa.
+
+If code is more your thing, here is snippet summarizing DFS:
+
 ```rust
 type Score = u32;
 
@@ -59,12 +69,6 @@ fn dfs(&mut board: Board, depth: u8) -> Score {
 }
 ```
 
-Graphically, it looks something like this:
-
-```
-TODO
-```
-
 ## Branch Trimming
 
 Now, we move onto the alpha-beta search algorithm, which is a DFS improvement that removes branches deemed too good or too bad.
@@ -81,13 +85,15 @@ We must also keep an upper bound, `beta`, which is be used to trim branches that
 
 Both `alpha` and `beta` are swapped with as we travel down the move tree, as one color's upper bound corresponds to the other color's lower bound.
 
-Let's compare the plain DFS tree to an improved alpha-beta tree:
+Let's examine the improved alpha-beta tree, working from the same DFS example:
 
-```
-TODO
-```
+<img src='/search-tree-ab.png' className='bg-base-800 p-4 rounded-md' />
 
-Also, here's a snippet summarizing the alpha-beta algorithm:
+After searching through the first move subtree, we notice the score would be `+100` for the opponent. Moving onto the next move, the first option checked would at least allow the opponent to be `+300`, already worse than our previous lower bound of `+100`. So, we just trim that entire branch and continue on, saving us some `evaluate()` calls.
+
+This is a simple example with a `depth` of only 2. The time saved exponentially increases with the `depth`, where each of those single nodes would have entire subtrees worth of evaluations.
+
+Again, a snippet summarizing the alpha-beta algorithm:
 
 ```rust
 def alpha_beta(board: &mut Board, mut alpha: Score, beta: Score, depth: u8) -> Score {
