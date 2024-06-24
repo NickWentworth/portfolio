@@ -125,3 +125,68 @@ def alpha_beta(board: &mut Board, mut alpha: Score, beta: Score, depth: u8) -> S
     alpha
 }
 ```
+
+# Improvements
+
+As with evaluation, there is a lot of room for improvement, let's explore some techniques.
+
+## Quiescence Search
+
+With our current `evaluate()` function, there is one glaring issue. Notice how the evaluation function is only checking material value and position, and our search algorithm only goes to a certain depth. We could end searching on a move that has a high evaluation score for us, but actually blunders a piece the very next move.
+
+To prevent this from happening, we need a way to "stabilize" the position. [Quiescence search](https://www.chessprogramming.org/Quiescence_Search) is an extra step before we evaluate in the alpha-beta search that does just this. Its purpose is to extend the search along any paths that have captures available, until we reach only quiescent (or quiet) positions.
+
+The implementation for quiescence search is very similar to `alpha_beta()`, with just a few key differences:
+
+1. Only capturing moves are generate and searched
+    - Otter achieves this by generating moves as usual and filtering out those without matching capture `MoveFlag`s.
+    - In more efficient engines, this is done fully within the move generator, so that only capturing moves are generated.
+2. Before searching captures, assess the current board evaluation
+    - This is needed in case there are no capturing moves, as a score must be returned to the calling search function.
+    - This also gives us a safe `alpha` lower bound to start with, because in nearly all cases, taking an opponent's piece is good for us.
+    - We can also run this against `beta` and possibly trim the branch, in case this position is too good for us that the opponent would just forget this move.
+3. There is no `depth` parameter
+    - Keeping a `depth` value is not required, as we just continue searching until the position is fully quiet, no captures available.
+
+```rust
+fn quiesce(board: &mut Board, mut alpha: Score, beta: Score) -> Score {
+    // first determine current evaluation and check vs alpha and beta
+    let curr_score = evaluate(board);
+
+    if curr_score >= beta {
+        return beta;
+    }
+
+    alpha = alpha.max(curr_score);
+
+    // run through all captures, if any, same process as alpha-beta search
+    for mov in board.generate_captures() {
+        board.make_move(mov);
+        let score = -quiesce(board, -beta, -alpha);
+        board.unmake_move();
+
+        if score >= beta {
+            return beta;
+        }
+
+        alpha = alpha.max(score);
+    }
+
+    alpha
+}
+```
+
+## Move Ordering
+
+To get the fullest benefit of alpha-beta, we want to trim as many branches as possible. If we aren't trimming any branches, there is no real difference between `alpha_beta()` and `dfs()`.
+
+Notice that the case for trimming a branch is when we go through a good move first. Having a higher `alpha` lower bound earlier on gives us a better chance of trimming branches later. Conversely, if we go through moves worst to best, we end up searching the branches we should be trimming.
+
+The idea of move ordering is to spend a little extra time and sort generated moves from best to worst, so that we can save more time later by trimming the branches from bad move trees. But how do we figure out what moves are better than others?
+
+The process, similar to `evaluate()`, depends upon the engine, but Otter considers a few simple cases:
+
+-   Prefer attacking a higher value opposing piece with a lower value friendly piece
+-   Prefer pawn promotions
+-   If the move was previously found to be the best option, order it first
+    -   How would this actually happen? Check out the next section to see how board positions and their best moves are cached for later use.
