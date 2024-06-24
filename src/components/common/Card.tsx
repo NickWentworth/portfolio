@@ -1,7 +1,12 @@
-export function Card(props: React.PropsWithChildren) {
+type CardProps = React.PropsWithChildren<{
+    left?: React.ReactNode;
+}>;
+
+export function Card(props: CardProps) {
     return (
-        <div className='inline-block bg-base-750 rounded-md p-5 shadow-sm'>
-            {props.children}
+        <div className='inline-flex bg-base-750 rounded-md shadow-sm overflow-hidden'>
+            {props.left}
+            <div className='p-5'>{props.children}</div>
         </div>
     );
 }

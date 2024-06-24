@@ -20,7 +20,7 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
             </AwareLink>
 
             <div className='flex flex-col gap-2 border-l border-l-white/10'>
-                {props.section.posts.map((post) => (
+                {props.section.posts.map((post, idx) => (
                     <AwareLink
                         key={post.href}
                         href={post.href}
@@ -29,7 +29,7 @@ export function BlogNavCategory(props: BlogNavCategoryProps) {
                         activeClassName='border-accent-200'
                         inactiveClassName='border-transparent'
                     >
-                        {post.frontmatter.title}
+                        {idx + 1}. {post.frontmatter.title}
                     </AwareLink>
                 ))}
             </div>

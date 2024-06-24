@@ -37,14 +37,20 @@ export default async (props: PageProps) => {
 
             <hr />
 
-            <div className='grid grid-cols-2 gap-4'>
-                {posts.map((post) => (
+            <div className='grid gap-4 md:grid-cols-2'>
+                {posts.map((post, idx) => (
                     <Link
                         key={post.href}
                         href={post.href}
                         className='group *:w-full *:h-full'
                     >
-                        <Card>
+                        <Card
+                            left={
+                                <h5 className='bg-base-800 w-10 shrink-0 font-mono text-base-200 py-5 text-center'>
+                                    {idx + 1}
+                                </h5>
+                            }
+                        >
                             <h5 className='text-accent-200 group-hover:underline'>
                                 {post.frontmatter.title}
                             </h5>
