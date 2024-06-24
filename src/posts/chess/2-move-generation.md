@@ -4,15 +4,17 @@ date: '2024-06-14'
 summary: 'Generating pseudo-legal and legal moves, along with making/unmaking them'
 ---
 
+Now that we have a way to represent the `Board`, let's examine how we can generate, make, and unmake moves to change its state.
+
 # Working With Bitboards
 
 A great benefit of using bitboards to represent positions is how efficiently we can generate moves with them.
 
-If we have a bitboard with a single `1` bit in it, a move from that square can be represented by just one bitwise shift instruction. We can pre-determine what these shifts must be by determining the offset that each cardinal direction is. For example, examine the offsets each other square is from an initial square of `d5`:
+If we have a bitboard with a single `1` bit in it, a move from that square can be represented by just one bitwise shift instruction. We can pre-determine how much to shift by determining the offset that each cardinal direction is. For example, examine the offsets each other square is from an initial square of `d5`:
 
 <Bitboard squares={[27]} showOffsetsFrom={27} />
 
-Notice that a move in each cardinal direction is just `+/- 1` or `+/- 8`. For convenience, lets store these four directions as constants in a `Direction` impl:
+A move in each cardinal direction is an offset of `+/- 1` or `+/- 8`. For convenience, lets store these four directions as constants in a `Direction` impl:
 
 ```rust
 impl Direction {
@@ -23,18 +25,29 @@ impl Direction {
 }
 ```
 
-Also, a more complicated move can be calculated by adding up any sequence of cardinal directions. Say we want to move both down and to the right, we can just shift by the result of `Direction::S + Direction::E`.
+A more complicated move can be calculated by adding up any sequence of cardinal directions. Say we want to move both down and to the right, we can just shift by the result of `Direction::S + Direction::E`.
 
-Finally, we have to setup a custom shift instruction for our `Bitboard` struct, as Rust doesn't allow bitwise shifting of negative numbers. To handle this, we can conditionally shift left or right based on the sign of the number:
+```rust
+impl Direction {
+    // ... previous fields ...
+    pub const NE: isize = Direction::N + Direction::E;
+    pub const NW: isize = Direction::N + Direction::W;
+    pub const SE: isize = Direction::S + Direction::E;
+    pub const SW: isize = Direction::S + Direction::W;
+}
+```
+
+Finally, we have to setup a custom shift instruction for our `Bitboard`, as Rust doesn't allow bitwise shifting of negative numbers. To handle this, we can conditionally shift left or right based on the sign of the number:
 
 ```rust
 impl Shr<isize> Bitboard {
     fn shr(self, dir: isize) -> Bitboard {
-        // notation is like this because Bitboard wraps a u64,
-        // so get the u64 with self.0 and return a new Bitboard wrapping the result
         if dir >= 0 {
+            // weird notation because Bitboard wraps a u64
+            // the main idea is that we do a right shift by dir when it is positive
             Bitboard(self.0 >> dir)
         } else {
+            // and we do a left shift by -dir when it is negative (to make it positive)
             Bitboard(self.0 << -dir)
         }
     }
@@ -50,7 +63,7 @@ Now for example, this is what a single knight move going `Direction::N + Directi
 
 # Pseudo-Legal Moves
 
-First, let's consider the generation of [pseudo-legal moves](https://www.chessprogramming.org/Pseudo-Legal_Move), which are defined as moves that follow the rules of each piece's movement patterns, but do not consider the safety of the `King`. We begin with generating these, as considering full legality of a move has some extra caveats which will be discussed afterwards.
+First, let's consider the generation of [pseudo-legal moves](https://www.chessprogramming.org/Pseudo-Legal_Move), which are defined as moves that follow the rules of each piece's movement patterns, but do not consider the safety of the king. We begin with generating these, as considering full legality of a move has some extra caveats which will be discussed later on.
 
 To generate pseudo-legal moves for a position, the general process is to iterate through each `Piece` of the actively moving `Color`, and generate a bitboard of possible destination squares for this piece to move to. The process for generating moves varies per piece type, so we can roughly split each piece into 3 categories.
 
@@ -65,9 +78,9 @@ Sticking with `d5` as our initial square, the king and knight bitboards would lo
     <Bitboard squares={[10,12,17,21,33,37,42,44]} description='knight_moves' />
 </div>
 
-Care must be taken when moving near the edges of the board. Because our bitboard is essentially just a 1-D array of bits, a piece can shift off of one side of the board and appear on the other. We only really need to worry about horizontal overflow, because overflow in the vertical direction would just result in the bit disappearing, which works perfectly for us.
+Care must be taken when moving near the edges of the board. Because our bitboard is essentially just a flat array of bits, a piece can shift off of one side of the board and appear on the other. We only really need to worry about horizontal overflow, because overflow in the vertical direction would just result in the bit disappearing, which works perfectly for us.
 
-To handle this, we can use file masks to filter out pieces on certain files before doing a shift. For example, moves for the `King` are generated as follows. Notice that whenever there is a `W` or `E` move, a file-masked version of the position is used.
+To handle this, we can use file masks to filter out pieces on certain files before doing a shift. For example, moves for the `King` are generated as follows. Notice that whenever there is horizontal movement, a file-masked version of the position is used.
 
 ```rust
 fn generate_king_moves(king_position: Bitboard) -> Bitboard {
@@ -92,15 +105,15 @@ fn generate_king_moves(king_position: Bitboard) -> Bitboard {
 }
 ```
 
-Finally, we just have to determine which of the possible locations are actually valid (still pseudo-legal) moves. Obviously, from the initial position, the king can't move anywhere becasue it is surrounded by neighboring pieces.
+Finally, we just have to determine which of the possible locations are actually valid squares. Obviously, from the initial position, the king can't move anywhere becasue it is surrounded by neighboring pieces.
 
-To remedy this, we need to build another bitboard to mask out invalid squares. In our case, the only invalid squares are those of the same color, so we can bitwise `NOT` that board, resulting in a bitboard that properly masks out moves that would land on same-color pieces.
+To remedy this, we need to build another bitboard to mask out invalid squares. In our case, the only invalid squares are those of the same color, so we can bitwise `NOT` that board, resulting in a bitboard that will mask out moves landing on same-color pieces.
 
 ```rust
 generate_king_moves(king_position) & !board.active_pieces();
 ```
 
-This is what the process looks like visually with the initial white knight on `b1`:
+This is what the process looks like visually, with the initial `Knight` on `b1`:
 
 <div className='flex flex-wrap justify-center gap-4'>
     <Bitboard squares={[40,42,51]} description='generate_knight_moves()' />
@@ -114,13 +127,13 @@ This is what the process looks like visually with the initial white knight on `b
 
 ## Pawns
 
-Although `Pawn`s are technically jumping pieces, they have some extra rules to them. Let's split up pawn moves into 3 categories:
+Although the `Pawn` is technically a jumping piece, it have some extra rules to consider. Let's split up pawn moves into 3 categories:
 
 1. Single advancement
     - The simplest type of pawn move and nearly the same as for other jumping pieces. Shift the pawn in the correct direction, `Direction::N` for `White`, `Direction::S` for `Black`.
     - The only difference here is we want to mask out ALL other pieces, because a pawn advancement cannot take opposing pieces either.
 2. Double advancement
-    - Same as single advancement, except only consider a double move if the pawn is on its home rank and the single move was successful after the masking.
+    - Same as single advancement, except only consider a double move if the pawn is on its home rank and the single move was able to be made.
     - In practice, this is done by simply taking the resulting single advancement bitboard and shifting it in that same direction again. If the single board was empty, the double will be as well.
 3. Diagonal attack
     - Again, do the shift to get the resulting destination, this time mask for ONLY opposing pieces, as the diagonal move can only attack.
@@ -128,7 +141,7 @@ Although `Pawn`s are technically jumping pieces, they have some extra rules to t
 
 ## Sliding Pieces
 
-The final 3 piece types, `Bishop`, `Rook`, and `Queen` are slightly more difficult to find moves for, due to the nature of their movement. They are able to move continuously in a direction, but upon hitting any piece they must stop. The process for efficiently generating these moves are as follows:
+The final 3 piece types, `Bishop`, `Rook`, and `Queen` are slightly more difficult to find moves for, due to the nature of their movement. They can move continuously in a direction, but upon hitting any piece, they must stop. The process for efficiently generating these moves is as follows:
 
 1. Generate sliding rays for the current square on the board, in whichever directions the piece can attack
     - This is done by starting from the square and incrementally shifting in the direction, `OR`-ing as we go, until we eventually shift onto the other side of the board.
@@ -158,7 +171,7 @@ impl Bitboard {
 
 3. Finally if the sliding ray is blocked, clip off the extra squares
     - We can generate another sliding ray in the same direction, but from the `first_blocker` square.
-    - Then, a bitwise `XOR` the initial ray with a ray from the `first_blocker`'s square.
+    - Then, bitwise `XOR` the initial ray with a ray in the same direction from the `first_blocker`'s square.
     - For example, say there is a blocker in that `b2` `Direction::NE` ray on square `e5`:
 
 <div className='flex flex-wrap items-center justify-center gap-4'>
@@ -211,20 +224,21 @@ Generating legal moves can be done in one of 2 ways:
     - This is a very convenient approach, as we nearly have everything we need, but it is also the much slower option.
     - There are many illegal moves that that would have to be generated, made, checked, and unmade.
 2. Generate only legal moves during move generation, filtering out illegal moves without making them beforehand.
-    - This approach obviously has more edge cases to worry about, such as checks and pins, but there is no need to make, check, and unmake every move.
+    - This approach is more difficult to implement with more edge cases to worry about, such as checks and pins
+    - But there is no need to make, check, and unmake every move, leading to much quicker generation.
 
 Otter decides to generate legal moves in-place as opposed to the slower strategy, so there are some extra masking boards that need to be built before the moves are generated.
 
 -   `king_move_mask`: Masks out all squares currently being attacked
     -   This bitboard is specific to the `King` so that it cannot move into an attacked square.
 -   `capture_mask`: Mask of all opposing pieces currently putting the king into check
-    -   Allows opposing pieces directly attacking the king to be taken.
+    -   Allows opposing pieces directly attacking the king to be taken, to break a check.
     -   If in a double check, this board is empty as the only valid moves would be king moves.
 -   `block_mask`: Mask of the sliding attack rays of opposing sliding pieces currently putting the king into check
-    -   Allows friendly pieces to block the any sliding attacks on the king.
+    -   Allows friendly pieces to block the any sliding attacks on the king, to break a check.
     -   If in a double check, this board is empty as the only valid moves would be king moves.
 -   `pin_mask`: Mask of the sliding attack rays of opposing sliding pieces currently pinning a friendly piece onto the king
-    -   Ensures that pieces currently pinned cannot move out from the pin and allow the king to be attacked.
+    -   Ensures that pieces currently pinned cannot move out from the pin and allow the king to be taken.
 
 These masks are applied throughout the move generation phase when required, so that all moves generated are valid, legal moves to be made.
 
@@ -279,6 +293,7 @@ impl Board {
 
         // finish unmaking move
 
+        // and restore previous game state
         self.game_state = prev_state;
     }
 }

@@ -4,11 +4,13 @@ date: '2024-06-10'
 summary: 'Representing the board state using bitboards and FEN notation'
 ---
 
-The first step in writing a chess engine is deciding how to represent the board state. This choice will heavilty affect the process and efficiency of move generation, an integral part of the chess engine.
+The first step in writing a chess engine is deciding how to represent the board state. This choice will heavily affect the process and efficiency of move generation, an integral part of the chess engine.
 
 # Bitboards
 
 Modern computers are built and optimized to work with 64-bit values very efficiently. Conveniently, there are also exactly 64 squares on a chess board. This is the inspiration behind a [bitboard](https://www.chessprogramming.org/Bitboards), which is simply a 64 bit integer, able to store 1 bit of information per square on the board.
+
+If you're familiar with binary, the most-significant bit (MSB) corresponds to the upper-left square `a8`, while the least-significant bit (LSB) corresponds to the bottom-right square, `h1`. The entire board as bit indices, `0` for MSB to `63` for LSB, is as follows:
 
 <Bitboard squares={[]} showOffsetsFrom={0} />
 
@@ -47,11 +49,27 @@ Since we are working with simple integers, we can use quick bitwise operations t
 
 There is some more data that has to be stored apart from piece positions, such as the current moving color and castling rights. This is stored in a separate `GameState` struct, which when combined with the `colors` and `pieces` bitboard lists, make up the basis of a `Board`.
 
+```rust
+struct Board {
+    pieces: [Bitboard; 6], // array of 6 bitboards, one per piece type
+    colors: [Bitboard; 2], // array of 2 bitboards, one per color
+    game_state: GameState, // remaining non-bitboard game values
+}
+
+struct GameState {
+    current_turn: Color,               // current moving color
+    castle_rights: CastleRights,       // stores 4 booleans, king/queen-side per color
+    en_passant_square: Option<Square>, // if there is, stores en passant target square
+    halfmove: u32,                     // halfmove counter, incremented after each color's move
+    fullmove: u32,                     // fullmove counter, only incremented after black's move
+}
+```
+
 # FEN
 
 Another way to represent the state of a chess game is through [Forsyth-Edwards Notation](https://www.chessprogramming.org/Forsyth-Edwards_Notation), or FEN.
 
-A FEN string is a moderately short ASCII string, which like our `Board` struct, contains all of the necessary information to represetn any board state. For example, this is the FEN string for the initial position:
+A FEN string is a moderately short ASCII string, which like our `Board` struct, contains all of the necessary information to represent any board state. For example, this is the FEN string for the initial position:
 
 <div className='self-center'>
     `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`

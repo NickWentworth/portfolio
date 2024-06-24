@@ -1,7 +1,7 @@
 ---
 title: 'Tree Searching'
 date: '2024-06-22'
-summary: 'Position tree searching using the alpha-beta algorithm, quiesence search, and transposition tables'
+summary: 'Position tree searching using the alpha-beta algorithm, quiesence search, and move ordering'
 ---
 
 Given unlimited time, finding the best move in any position would be done by checking down every possible tree of positions, where moves are continuously made until the game is either decided in a win, loss, or draw.
@@ -17,9 +17,9 @@ So to make an engine that is useful, we need to heavily trim down on these calcu
 
 # Alpha-Beta Search
 
-## Depth-First Search
+## Minimax
 
-Before we get into alpha-beta, we must first understand depth-first search, or DFS, which is a general searching algorithm.
+Before we get into alpha-beta, we must first understand the Minimax algorithm, which makes decisions based on the best move for the opponent.
 
 In the context of our chess engine, it starts at the position we are in, and searches through every possible move up to a certain `depth`. After reaching the max depth, the strength of the position is estimated using `evaluate()`. As we go, we store the best move found and return that best move after searching through all options.
 
@@ -33,17 +33,17 @@ Logically, we can think of what is going on as follows, say `White` is to move:
 Graphically, at a `depth` of 2, the tree can be represented as:
 
 <div className='bg-base-800 p-4 rounded-md'>
-    <img src='/search-tree-dfs.png' alt='DFS search tree' />
+    <img src='/search-tree-minimax.png' alt='Minimax search tree' />
 </div>
 
 Moves are made to a max depth, where they are then evaluated. At each level, a move is chosen based on what is worst for the opponent, then negated because a negative evaluation for the opponent is positive for us, and vice-versa.
 
-If code is more your thing, here is snippet summarizing DFS:
+If code is more your thing, here is snippet summarizing Minimax:
 
 ```rust
-type Score = u32;
+type Score = i16;
 
-fn dfs(&mut board: Board, depth: u8) -> Score {
+fn minimax(&mut board: Board, depth: u8) -> Score {
     // base case: at max depth, evaluate position
     if depth == 0 {
         return evaluate(board);
@@ -57,7 +57,7 @@ fn dfs(&mut board: Board, depth: u8) -> Score {
 
         // negate score, because evaluation is relative to moving color
         // however good/bad the opponent's evaluation is must be reversed for us
-        let score = -dfs(board, depth - 1);
+        let score = -minimax(board, depth - 1);
 
         // update best move so far
         best = best.max(score);
@@ -71,7 +71,7 @@ fn dfs(&mut board: Board, depth: u8) -> Score {
 
 ## Branch Trimming
 
-Now, we move onto the alpha-beta search algorithm, which is a DFS improvement that removes branches deemed too good or too bad.
+Now, we move onto the alpha-beta search algorithm, which is an improvement on Minimax that removes branches deemed too good or too bad.
 
 It is easiest to understand alpha-beta by going through an example first:
 
@@ -85,7 +85,7 @@ We must also keep an upper bound, `beta`, which is be used to trim branches that
 
 Both `alpha` and `beta` are swapped with as we travel down the move tree, as one color's upper bound corresponds to the other color's lower bound.
 
-Let's examine the improved alpha-beta tree, working from the same DFS example:
+Let's examine the improved alpha-beta tree, working from the same Minimax example:
 
 <img src='/search-tree-ab.png' className='bg-base-800 p-4 rounded-md' />
 
@@ -178,7 +178,7 @@ fn quiesce(board: &mut Board, mut alpha: Score, beta: Score) -> Score {
 
 ## Move Ordering
 
-To get the fullest benefit of alpha-beta, we want to trim as many branches as possible. If we aren't trimming any branches, there is no real difference between `alpha_beta()` and `dfs()`.
+To get the fullest benefit of alpha-beta, we want to trim as many branches as possible. If we aren't trimming any branches, there is no real difference between `alpha_beta()` and `minimax()`.
 
 Notice that the case for trimming a branch is when we go through a good move first. Having a higher `alpha` lower bound earlier on gives us a better chance of trimming branches later. Conversely, if we go through moves worst to best, we end up searching the branches we should be trimming.
 

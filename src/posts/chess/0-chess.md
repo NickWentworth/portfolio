@@ -1,5 +1,5 @@
 ---
-title: 'Chess'
+title: 'Chess Engine'
 thumbnail: '/otter-banner.png'
 summary: 'This series of posts go through a high-level overview of how I programmed my chess engine, Otter.'
 ---
