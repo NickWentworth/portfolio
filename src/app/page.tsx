@@ -18,9 +18,9 @@ export default async () => (
 
         {/* main content */}
         <div className='bg-base-700 self-stretch'>
-            <div className='max-w-[1200px] m-auto px-4 md:px-8'>
+            <div className='max-w-[--content-width] m-auto px-4'>
                 {/* technologies */}
-                <div className='flex flex-col gap-4 py-8 md:px-8'>
+                <div className='flex flex-col gap-4 py-8'>
                     <Heading title='Technologies' />
 
                     <p>
@@ -79,7 +79,7 @@ export default async () => (
                 <hr />
 
                 {/* projects */}
-                <div className='flex flex-col gap-4 py-8 md:px-8'>
+                <div className='flex flex-col gap-4 py-8'>
                     <Heading title='Projects' />
 
                     <div className='grid gap-2 md:grid-cols-2'>
@@ -119,7 +119,7 @@ export default async () => (
                 <hr />
 
                 {/* experience */}
-                <div className='flex flex-col gap-4 py-8 md:px-8'>
+                <div className='flex flex-col gap-4 py-8'>
                     <Heading title='Experience' />
 
                     <p>

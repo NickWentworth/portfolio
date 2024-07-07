@@ -87,6 +87,9 @@ body {
 
 @layer components {
     :root {
+        /* general max width of content throughout the site */
+        --content-width: 1200px;
+
         /* height is used both for header and sticky top-offset for blog navigation */
         --header-height: 4rem;
     }
