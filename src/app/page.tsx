@@ -102,8 +102,9 @@ export default async () => (
                         <ProjectCard
                             name='Otter'
                             image='otter.png'
-                            description='Advanced chess engine written fully from scratch'
+                            description='Advanced UCI-compatible chess engine written fully from scratch'
                             tags={['Rust']}
+                            link='/blog/chess'
                             source='https://github.com/NickWentworth/otter'
                         />
 
