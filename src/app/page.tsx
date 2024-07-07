@@ -113,6 +113,20 @@ export default async () => (
                             description='Online application built to assist Penn State faculty through the management of their Senior Capstone projects'
                             tags={['Next.js', 'React', 'TypeScript', 'Prisma']}
                         />
+
+                        <ProjectCard
+                            name='Landscaping Business Homepage'
+                            image='perfect-patch.png'
+                            description='Static landing page for a small landscaping business with online messaging support'
+                            tags={[
+                                'React',
+                                'TypeScript',
+                                'Vite',
+                                'Express',
+                                'Nodemailer',
+                            ]}
+                            link='https://perfectpatchyard.com'
+                        />
                     </div>
                 </div>
 
