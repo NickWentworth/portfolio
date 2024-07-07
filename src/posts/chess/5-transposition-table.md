@@ -157,3 +157,103 @@ impl TranspositionTable<D> where D: Copy + Default {
     }
 }
 ```
+
+# Use During Search
+
+Now we have to actually use the transposition table to realize its benefits! Setting up a `TranspositionTable` within our alpha-beta search is done with a few careful considerations.
+
+Due to the way that alpha-beta works, simply storing a `Score` value isn't enough to accurately describe the evaluation of some positions, because some positions might be represented as lower or upper bounds. These different types of evaluations are stored as a variant of a `ScoreLimit` enum:
+
+```rust
+enum ScoreLimit {
+    // An exact evaluation was found.
+    Exact,
+
+    // A move was found that was too good for us, so this branch was trimmed early due to
+    // the opponent having a better option. Because this branch returned early,
+    // a better move might be there for this position but wasn't discovered yet.
+    // So, the current score value is stored as a lower bound.
+    Beta,
+
+    // During search, no move was found to be better for us than a previously found option from
+    // a different position. Storing this is more of a detail from how alpha-beta works,
+    // as the value we get might not be an exact evaluation, but instead an upper bound.
+    Alpha,
+}
+```
+
+Along with the `Score` value and `ScoreLimit` flag, we want to store some extra data to help improve the search speed and accuracy, which will be discussed later. Let's put this all together into a `ScoreData` struct, which is the generic type that our `TranspositionTable` stores.
+
+```rust
+struct ScoreData {
+    score: Score,
+    flag: ScoreLimit,
+    depth: u8,               // the depth this evaluation was determined for
+    best_move: Option<Move>, // the best move (if found) to make from this position
+}
+```
+
+Finally, let's get into inserting and fetching from our table, which ends up being pretty straightforward.
+
+## Inserting
+
+Inserting is done during the searching portion of `alpha_beta()`, after an evaluation is calculated.
+
+There are 3 different scenarios that correspond to each `ScoreLimit` we've determined:
+
+-   After searching through all moves, if a more accurate upper-bound is found, insert that `alpha` value, a `ScoreLimit::Exact` flag, and the `best_move` that lead to this score.
+-   If after searching through all moves, no improved upper-bound was found, insert the initial `alpha` value with a `ScoreLimit::Alpha` flag and no `best_move`.
+-   If while searching, we need to trim the branch, insert the current `beta` score, a `ScoreLimit::Beta` flag, and the `best_move` that caused this cutoff.
+
+Additionally, the current `depth` is stored for all scenarios. This is because a greater `depth` means a more accurate evaluation, so when we fetch from the table we need to know how deep this evaluation was generated at. For example, an evaluation at a `depth` of `20` moves is much more accurate than just `2`.
+
+## Fetching
+
+Fetching from the table is done once per call to `alpha_beta()`, before moves are generated and recursively searched.
+
+If `get()` returns a matching `ScoreData` for this position, we first check that the `depth` the score was found at is greater than or equal to the current depth, for evaluation accuracy.
+
+After checking the `depth`, we need to consider the `ScoreLimit` flag and conditionally return, which is summarized below:
+
+```rust
+// ... within alpha_beta()
+
+let best_move = match table.get(board.zobrist()) {
+    // this transposition was stored
+    Some(data) => {
+        // ensure that the stored data's depth is at least our current depth
+        if data.depth >= depth {
+            match data.flag {
+                // if exact, we can always use the calculated score evaluation
+                ScoreLimit::Exact => return data.score,
+
+                // this data stores a lower-bound evaluation as a result of a beta cutoff
+                // we can only return the score if it also causes a beta cutoff here
+                ScoreLimit::Beta => {
+                    if data.score >= beta {
+                        return data.score;
+                    }
+                }
+
+                // this data stores an upper-bound evaluation
+                // we can only return the score if it causes an alpha adjustment here
+                ScoreLimit::Alpha => {
+                    if data.score <= alpha {
+                        return data.score;
+                    }
+                }
+
+            }
+        }
+
+        // if the depth was too low or we couldn't use the stored score, track the stored best move
+        // for later on, as we pass this to the move ordering function to place it first
+        data.best_move
+    }
+
+    // no data is found, so no best move could be used
+    None => None,
+}
+```
+
+Notice, if we don't return the fetched `data.score`, we always keep the stored `data.best_move`. This move is ordered first to trim as many branches as possible later on.
